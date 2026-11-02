@@ -20,6 +20,8 @@ export function Split({ as: Tag = "h2", className, id, children }: { as?: "h1" |
   flat(children).forEach((child, ci) => {
     if (typeof child === "string") {
       child.split(/\s+/).filter(Boolean).forEach((w, wi) => { out.push(word(w, `${ci}-${wi}`), " "); label.push(w); });
+    } else if (isValidElement(child) && child.type === "br") {
+      out.push(<br key={`br${ci}`} />);
     } else if (isValidElement(child)) {
       const el = child as ReactElement<{ children?: ReactNode }>;
       String(el.props.children ?? "").split(/\s+/).filter(Boolean).forEach((w, wi) => {
