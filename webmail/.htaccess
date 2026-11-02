@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(.*)$ https://universal-data-grid.zeronetix.site:8090/snappymail/ [R=301,L]

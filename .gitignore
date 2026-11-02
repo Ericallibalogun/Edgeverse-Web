@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env*.local
+.env
+next-env.d.ts
+*.tsbuildinfo
+
+# Not part of the site
+EdgeVervebs.zip
+.claude/skills/
+.claude/settings.local.json
+.agents/
+skills-lock.json
