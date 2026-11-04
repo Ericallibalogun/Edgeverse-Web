@@ -27,7 +27,7 @@ export default async function Article({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHero title={p.title} lead={p.summary} eyebrow={`${p.tag} · ${p.read} read`}
+      <PageHero media={{ src: p.image, alt: p.imageAlt, size: "band", tag: { title: p.tag, sub: `${p.read} read` } }} title={p.title} lead={p.summary} eyebrow={`${p.tag} · ${p.read} read`}
         crumbs={[{ label: "Insights", href: "/insights" }, { label: p.tag }]} />
       <article className="section">
         <div className="container">

@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Icon, { Arrow } from "@/components/Icon";
@@ -13,9 +14,9 @@ export const metadata: Metadata = {
 export default function Services() {
   return (
     <>
-      <PageHero title={<>Every capability your <Serif>technology</Serif> needs.</>} eyebrow="Services" crumbs={[{ label: "Services" }]}
+      <PageHero media={{ ...photo("datacentre-engineers"), tag: { title: "Nine practices", sub: "One accountable team" }, tags: ["Infrastructure", "Security", "AI"] }} title={<>Every capability your <Serif>technology</Serif> needs.</>} eyebrow="Services" crumbs={[{ label: "Services" }]}
         lead="Nine practices, one accountable partner. Pick a starting point, or tell us the problem and we'll assemble the team."
-        actions={<Link className="btn" href="/service-request" data-magnetic>Get Started <Arrow /></Link>} />
+        actions={<Link className="btn" href="/service-request">Get Started <Arrow /></Link>} />
       <section className="section" aria-label="Service catalogue">
         <div className="container grid grid-3">
           {services.map((s, i) => (

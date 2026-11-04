@@ -5,6 +5,7 @@ import { SocialLinks } from "./Header";
 import { WaChannelButton } from "./ui";
 import { site, svc, waChat } from "@/lib/site";
 
+
 const footerServices = ["infrastructure", "consulting", "cybersecurity", "outsourcing", "training", "agentic-ai", "phlyp-pay"].map(svc);
 
 export default function Footer() {
@@ -51,13 +52,14 @@ export default function Footer() {
               <div className="social"><SocialLinks channel /></div>
             </div>
           </div>
-          <div className="footer-word" aria-hidden="true">EBSL</div>
+          <p className="footer-word" aria-hidden="true">Edgeverve Business Solutions</p>
         </div>
         <div className="footer-bottom container">
           <span>© {new Date().getFullYear()} EBSL | Edgeverve Business Solutions Ltd. All rights reserved.</span>
           <nav aria-label="Legal">
             <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/terms">Terms of Service</Link>
+            <Link href="/credits">Photo credits</Link>
             <a href="/sitemap.xml">Sitemap</a>
           </nav>
         </div>

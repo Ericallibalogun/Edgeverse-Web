@@ -1,101 +1,124 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Children, cloneElement, Fragment, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Icon, { Arrow } from "./Icon";
 import { partners, partnerWords, services, site, svc, type Service } from "@/lib/site";
 import type { Insight } from "@/lib/insights";
 
-/** Headline whose words rise in on reveal. Works with plain text and inline <em>. */
+/** Section or page headline. One face, one colour; it fades in with its section. */
 export function Split({ as: Tag = "h2", className, id, children }: { as?: "h1" | "h2"; className?: string; id?: string; children: ReactNode }) {
-  let i = 0;
-  const word = (w: ReactNode, key: string) => (
-    <span key={key} className="split-line" aria-hidden="true">
-      <span style={{ "--d": `${i++ * 60}ms` } as CSSProperties}>{w}</span>
-    </span>
-  );
-  const out: ReactNode[] = [];
-  const label: string[] = [];
-  const flat = (nodes: ReactNode): ReactNode[] => Children.toArray(nodes).flatMap((n) =>
-    isValidElement(n) && n.type === Fragment ? flat((n as ReactElement<{ children?: ReactNode }>).props.children) : [n]);
-  flat(children).forEach((child, ci) => {
-    if (typeof child === "string") {
-      child.split(/\s+/).filter(Boolean).forEach((w, wi) => { out.push(word(w, `${ci}-${wi}`), " "); label.push(w); });
-    } else if (isValidElement(child) && child.type === "br") {
-      out.push(<br key={`br${ci}`} />);
-    } else if (isValidElement(child)) {
-      const el = child as ReactElement<{ children?: ReactNode }>;
-      String(el.props.children ?? "").split(/\s+/).filter(Boolean).forEach((w, wi) => {
-        out.push(word(cloneElement(el, { key: `e${ci}-${wi}` }, w), `${ci}-e${wi}`), " ");
-        label.push(w);
-      });
-    }
-  });
-  return <Tag className={`${className ?? ""} reveal-split`} id={id} aria-label={label.join(" ")}>{out}</Tag>;
+  return <Tag className={`${className ?? ""} reveal`} id={id}>{children}</Tag>;
 }
 
-export const Serif = ({ children }: { children: string }) => <em className="serif">{children}</em>;
+/** Kept for existing call sites: emphasis now comes from the words, not a second typeface. */
+export const Serif = ({ children }: { children: string }) => <>{children}</>;
 
-export function HeroBg({ orbs = 1 }: { orbs?: number }) {
+/** Former decorative hero background (orbs, grid, noise). Intentionally renders nothing now. */
+export function HeroBg(_: { orbs?: number }) {
+  return null;
+}
+
+export const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+
+export type HeroMedia = {
+  /** Photo for the frame, or `node` for a live product fragment on a navy field. */
+  src?: string; alt?: string; node?: ReactNode;
+  /** Product fragment laid over the photo, bottom-right. */
+  overlay?: ReactNode;
+  /** Notched tab in the frame's top-left corner, and small tags notched into the top-right. */
+  tag?: { title: string; sub?: string }; tags?: string[];
+  size?: "tall" | "band" | "auto"; position?: string; priority?: boolean;
+};
+
+/** Large round-cornered picture with a label tab and tags cut into its top corners. */
+export function HeroFrame({ media }: { media: HeroMedia }) {
+  const { src, alt = "", node, overlay, tag, tags = [], size = "tall", position, priority } = media;
   return (
-    <div className="hero-bg" aria-hidden="true">
-      <div className="grid-lines" /><div className="orb orb-1" />{orbs > 1 && <div className="orb orb-2" />}<div className="noise" />
-    </div>
+    <figure className={`hero-frame hero-frame--${size}${node ? " hero-frame--ui" : ""} reveal`} style={d(200)}>
+      {src && <Image src={src} alt={alt} fill priority={priority} sizes="100vw" style={{ objectFit: "cover", objectPosition: position }} />}
+      {node && <div className="hero-frame-ui">{node}</div>}
+      {overlay && <div className="hero-frame-ui--corner">{overlay}</div>}
+      {tag && (
+        <figcaption className="frame-tab frame-tab--tl">
+          <span className="frame-mark" aria-hidden="true"><Image src="/img/favicon.png" alt="" width={22} height={22} /></span>
+          <span><b>{tag.title}</b>{tag.sub && <small>{tag.sub}</small>}</span>
+        </figcaption>
+      )}
+      {tags.length > 0 && (
+        <ul className="frame-tab frame-tab--tr" aria-label="Tags">
+          {tags.map((t) => <li key={t}>{t}</li>)}
+        </ul>
+      )}
+    </figure>
   );
 }
 
-export function PageHero({ title, lead, crumbs, eyebrow, actions, aside }: {
-  title: ReactNode; lead: ReactNode; crumbs: { label: string; href?: string }[];
-  eyebrow?: ReactNode; actions?: ReactNode; aside?: ReactNode;
+export function HeroTop({ title, lead, actions, crumbs, id }: {
+  title: ReactNode; lead: ReactNode; actions?: ReactNode; crumbs?: { label: string; href?: string }[]; id?: string;
 }) {
-  const body = (
-    <div>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <Split as="h1" className="hero-title">{title}</Split>
-      <div className="hero-row">
-        <p className="lead reveal" style={{ "--d": "300ms" } as CSSProperties}>{lead}</p>
-        {actions && <div className="hero-actions">{actions}</div>}
-      </div>
-    </div>
-  );
   return (
-    <section className="hero page-hero">
-      <HeroBg />
-      <div className="container">
-        <nav aria-label="Breadcrumb">
+    <>
+      {crumbs && (
+        <nav aria-label="Breadcrumb" className="crumbs-pill reveal">
           <ol className="crumbs">
             <li><Link href="/">Home</Link></li>
             {crumbs.map((c) => <li key={c.label} aria-current={c.href ? undefined : "page"}>{c.href ? <Link href={c.href}>{c.label}</Link> : c.label}</li>)}
           </ol>
         </nav>
-        {aside ? <div className="split split--even">{body}<div className="reveal" style={{ "--d": "200ms" } as CSSProperties}>{aside}</div></div> : body}
+      )}
+      <div className="hero-top">
+        <Split as="h1" className="hero-title" id={id}>{title}</Split>
+        <div className="hero-side">
+          <p className="lead reveal" style={d(80)}>{lead}</p>
+          {actions && <div className="hero-actions reveal" style={d(160)}>{actions}</div>}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function PageHero({ title, lead, crumbs, actions, media }: {
+  title: ReactNode; lead: ReactNode; crumbs: { label: string; href?: string }[];
+  eyebrow?: ReactNode; actions?: ReactNode; aside?: ReactNode; media?: HeroMedia;
+}) {
+  return (
+    <section className={`hero page-hero${media && !media.node ? " hero-fill" : ""}`}>
+      <div className="container">
+        <HeroTop title={title} lead={lead} actions={actions} crumbs={crumbs} />
+        {media && <HeroFrame media={{ priority: true, ...media }} />}
       </div>
     </section>
   );
 }
 
-export function CtaBand({ title = <>Ready to <Serif>architect</Serif> what&apos;s next?</>,
-  lead = "Tell us where you want to be. We'll map the infrastructure, security and people to get you there.",
+export function CtaBand({ title = "Tell us where you want your IT to be.",
+  lead = "We'll map the infrastructure, security and people to get you there, and quote it plainly.",
   primary = { label: "Book a Free Consultation", href: "/consultation" } }: { title?: ReactNode; lead?: string; primary?: { label: string; href: string } }) {
   return (
-    <section className="section hero cta-band">
-      <HeroBg orbs={2} />
+    <section className="section section--tight">
       <div className="container">
-        <p className="eyebrow">Let&apos;s talk strategy</p>
-        <Split className="h-display">{title}</Split>
-        <p className="lead mx-auto reveal">{lead}</p>
-        <div className="hero-actions reveal">
-          <Link className="btn btn--light" href={primary.href} data-magnetic>{primary.label} <Arrow /></Link>
-          <Link className="btn btn--outline-light" href="/demo">Book a Demo</Link>
+        <div className="cta-band">
+          <div>
+            <Split className="h2">{title}</Split>
+            <p className="lead reveal" style={d(80)}>{lead}</p>
+          </div>
+          <div className="hero-actions reveal" style={d(160)}>
+            <Link className="btn btn--light" href={primary.href}>{primary.label} <Arrow /></Link>
+            <Link className="btn btn--outline-light" href="/demo">Book a Demo</Link>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-export function SectionHead({ eyebrow, title, id, aside }: { eyebrow: ReactNode; title: ReactNode; id?: string; aside?: ReactNode }) {
+export function SectionHead({ title, id, aside, lead }: { eyebrow?: ReactNode; title: ReactNode; id?: string; aside?: ReactNode; lead?: ReactNode }) {
   return (
     <div className="section-head">
-      <div><p className="eyebrow">{eyebrow}</p><Split className="h2" id={id}>{title}</Split></div>
+      <div>
+        <Split className="h2" id={id}>{title}</Split>
+        {lead && <p className="lead reveal" style={d(80)}>{lead}</p>}
+      </div>
       {aside}
     </div>
   );
@@ -107,55 +130,69 @@ export const WaChannelButton = ({ className = "" }: { className?: string }) => (
   </a>
 );
 
-export const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
-
+/** Services as a list set in large type: name, one line, and the whole row links to the page. */
 export function SvcCards({ slugs }: { slugs?: string[] }) {
   const list: Service[] = slugs ? slugs.map(svc) : services.filter((s) => s.slug !== "software");
   return (
-    <div className="svc-grid">
+    <ul className="svc-list">
       {list.map((s, i) => (
-        <article className="svc-card reveal" style={d((i % 4) * 70)} key={s.slug}>
-          <span className="num">{String(i + 1).padStart(2, "0")}</span>
-          <span className="svc-icon"><Icon name={s.icon} /></span>
-          <h3>{s.name.split(" (")[0]}{s.isNew && <> <span className="badge-new">New</span></>}</h3>
-          <p>{s.short}</p>
-          <Link className="link-arrow" href={s.href}>Learn More<span className="sr-only"> about {s.name}</span> <Icon name="arrow" /></Link>
-        </article>
+        <li className="reveal" style={d((i % 4) * 60)} key={s.slug}>
+          <Link className="svc-row" href={s.href}>
+            <span className="svc-name">{s.name.split(" (")[0]}{s.isNew && <span className="new-tag"> New</span>}</span>
+            <span className="svc-short">{s.short}</span>
+            <span className="svc-go" aria-hidden="true"><Icon name="arrow" /></span>
+            <span className="sr-only">Learn more about {s.name}</span>
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
+/** Static row of OEM partner logos (spec §4.7), with names for those not yet supplied as files. */
 export function PartnersMarquee() {
-  const group = (hidden: boolean) => (
-    <div className="marquee-group" aria-hidden={hidden || undefined}>
-      {partners.map((p) => <Image key={p.key} className="logo-item" src={`/img/${p.key}.webp`} alt={hidden ? "" : p.name} width={163} height={52} />)}
-      {partnerWords.map((w) => <span key={w} className="logo-text">{w}</span>)}
-    </div>
-  );
   return (
-    <div style={{ position: "relative" }}>
-      <div className="marquee" style={{ "--marquee-dur": "55s" } as CSSProperties}>
-        <div className="marquee-track">{group(false)}{group(true)}</div>
-      </div>
-      <button className="btn btn--outline btn--sm marquee-toggle marquee-pause" type="button" aria-pressed="false"
-        style={{ width: 44, padding: 0, background: "#fff" }}>
-        <Icon name="pause" /><span className="sr-only">Pause logo carousel</span>
-      </button>
-    </div>
+    <ul className="partner-row" aria-label="OEM partners">
+      {partners.map((p) => (
+        <li key={p.key}><Image className="logo-item" src={`/img/${p.key}.webp`} alt={p.name} width={163} height={52} /></li>
+      ))}
+      {partnerWords.map((w) => <li key={w}><span className="logo-text">{w}</span></li>)}
+    </ul>
   );
 }
 
 export function LogoWall() {
   return (
-    <div className="logo-wall">
+    <ul className="logo-wall" aria-label="OEM partners">
       {partners.map((p) => (
-        <figure key={p.key}><Image src={`/img/${p.key}.webp`} alt={`${p.name} logo`} width={163} height={52} /><figcaption>{p.name} partner</figcaption></figure>
+        <li key={p.key}><Image src={`/img/${p.key}.webp`} alt={`${p.name} logo`} width={163} height={52} /></li>
       ))}
       {["Huawei", "Kaspersky", "Palo Alto", "Check Point"].map((w) => (
-        <figure key={w}><span className="logo-word">{w}</span><figcaption>OEM partner</figcaption></figure>
+        <li key={w}><span className="logo-word">{w}</span></li>
       ))}
-    </div>
+    </ul>
+  );
+}
+
+/** Client logos (supplied with EBSL's go-ahead). Shown on a navy field: the files are the light versions. */
+export const clients = [
+  { key: "unilag", name: "University of Lagos", w: 274 },
+  { key: "meristem", name: "Meristem Securities", w: 484 },
+  { key: "elizade", name: "Elizade Nigeria", w: 364 },
+];
+
+export function TrustedBy() {
+  return (
+    <section className="trusted" aria-labelledby="trusted-h">
+      <div className="container trusted-inner">
+        <h2 className="trusted-title reveal" id="trusted-h">Trusted by teams at University of Lagos, Meristem and Elizade.</h2>
+        <ul className="client-row reveal" style={d(80)}>
+          {clients.map((c) => (
+            <li key={c.key} className={`client-${c.key}`}><Image src={`/img/clients/${c.key}.webp`} alt={c.name} width={c.w} height={120} /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 
@@ -165,38 +202,28 @@ export function AiVisual() {
   return (
     <div className="ai-visual" aria-hidden="true">
       <svg viewBox="0 0 520 520">
-        <defs>
-          <radialGradient id="core" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stopColor="#00AAFF" /><stop offset=".6" stopColor="#0066CC" /><stop offset="1" stopColor="#003366" />
-          </radialGradient>
-        </defs>
-        <circle className="ring spin" cx="260" cy="260" r="240" />
-        <circle className="ring spin-rev" cx="260" cy="260" r="190" />
+        <circle className="ring" cx="260" cy="260" r="200" />
         <g className="spin-rev">
-          {nodes.map(([x, y]) => <line key={x + "-" + y} x1="260" y1="260" x2={x} y2={y} stroke="rgba(0,170,255,.35)" />)}
-          <circle cx="260" cy="20" r="5" fill="#FFB81C" />
+          {nodes.map(([x, y]) => <line key={x + "-" + y} x1="260" y1="260" x2={x} y2={y} stroke="rgba(255,255,255,.22)" />)}
         </g>
         {nodes.map(([x, y, l]) => (
           <g key={l}>
-            <circle cx={x} cy={y} r="30" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.25)" />
-            <text x={x} y={y + 4} textAnchor="middle" fill="#fff" fontSize="12" fontWeight="700" fontFamily={font}>{l}</text>
+            <circle cx={x} cy={y} r="34" fill="#0A2F57" />
+            <text x={x} y={y + 4} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="600" fontFamily={font}>{l}</text>
           </g>
         ))}
-        <g className="pulse">
-          <circle cx="260" cy="260" r="78" fill="url(#core)" />
-          <circle cx="260" cy="260" r="94" fill="none" stroke="rgba(0,170,255,.4)" />
-        </g>
-        <text x="260" y="256" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="800" fontFamily={font}>GRACE AI</text>
-        <text x="260" y="276" textAnchor="middle" fill="#A9B8CC" fontSize="11" fontFamily={font}>agent loop</text>
+        <circle className="pulse" cx="260" cy="260" r="82" fill="#0066CC" />
+        <text x="260" y="256" textAnchor="middle" fill="#fff" fontSize="16" fontWeight="700" fontFamily={font}>Grace AI</text>
+        <text x="260" y="278" textAnchor="middle" fill="#CFE3F7" fontSize="12" fontFamily={font}>agent loop</text>
       </svg>
     </div>
   );
 }
 
-/** Deterministic placeholder QR pattern. Replace with the real Phlyp Pay code (public/img/phlyp-qr.png) when supplied. */
-function QrPattern() {
+/** Deterministic QR-style pattern. `seed` changes the pattern (the amount demo uses it). */
+export function QrPattern({ seed: s0 = 7 }: { seed?: number }) {
   const n = 25;
-  let seed = 7;
+  let seed = s0 || 7;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   const cells: ReactNode[] = [];
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
@@ -212,20 +239,18 @@ function QrPattern() {
   return (
     <svg viewBox={`0 0 ${n} ${n}`} shapeRendering="crispEdges" role="img" aria-label="Sample Phlyp Pay QR code">
       <g fill="#001A33">{cells}</g>{finder(0, 0)}{finder(n - 7, 0)}{finder(0, n - 7)}
-      <rect x="10" y="10" width="5" height="5" rx="1" fill="#0066CC" />
+      <rect x="10" y="10" width="5" height="5" fill="#0066CC" />
     </svg>
   );
 }
 
 export function QrCard({ label = "Scan to Pay EBSL", note = "QR payment portal currently in final development. Request early access below." }) {
   return (
-    <div className="qr-card" data-tilt>
-      <div className="qr-top"><span>Phlyp Pay</span><span style={{ color: "var(--blue-400)", fontSize: ".85rem" }}>● Live preview</span></div>
-      <div className="qr-box"><QrPattern /><span className="scanline" aria-hidden="true" /></div>
+    <div className="qr-card" data-ui>
+      <div className="qr-top"><span>Phlyp Pay</span><span className="qr-live">Sample code</span></div>
+      <div className="qr-box"><QrPattern /></div>
       <p className="qr-label">{label}</p>
       <p className="qr-note">{note}</p>
-      <span className="qr-chip qr-chip--a" aria-hidden="true"><Icon name="check-circle" /> ₦25,000 received</span>
-      <span className="qr-chip qr-chip--b" aria-hidden="true"><Icon name="zap" /> Paid in 3s</span>
     </div>
   );
 }
@@ -234,10 +259,12 @@ export function PostCard({ p, h = "h3" }: { p: Insight; h?: "h2" | "h3" }) {
   const H = h;
   const [y, m, day] = p.date.split("-");
   return (
-    <article className="card post-card reveal" data-cat={p.tag.toLowerCase().replace(/\s+/g, "-")}>
-      <div className="thumb"><div className={`art art--${p.art}`} role="img" aria-label={`Illustration for: ${p.title}`}><span className="art-label">{p.tag}</span></div></div>
+    <article className="post-card reveal" data-cat={p.tag.toLowerCase().replace(/\s+/g, "-")}>
+      <div className="thumb">
+        <Image src={p.image} alt={p.imageAlt} fill sizes="(max-width: 640px) 100vw, 33vw" style={{ objectFit: "cover" }} />
+      </div>
       <div className="body">
-        <div className="post-meta"><span className="tag">{p.tag}</span><time dateTime={p.date}>{`${day}.${m}.${y}`}</time><span>{p.read}</span></div>
+        <p className="post-meta"><span className="tag">{p.tag}</span> · <time dateTime={p.date}>{`${day}.${m}.${y}`}</time> · {p.read} read</p>
         <H className="h3">{p.title}</H>
         <p>{p.summary}</p>
         <Link className="link-arrow card-link" href={`/insights/${p.slug}`}>Read More<span className="sr-only">: {p.title}</span> <Icon name="arrow" /></Link>

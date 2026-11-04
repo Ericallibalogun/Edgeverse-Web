@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Icon, { Arrow } from "@/components/Icon";
 import { EbslForm, Field } from "@/components/Form";
@@ -13,9 +14,9 @@ export const metadata: Metadata = {
 export default function Careers() {
   return (
     <>
-      <PageHero title={<>Do the best work of <Serif>your career.</Serif></>} eyebrow="Careers" crumbs={[{ label: "Careers" }]}
+      <PageHero media={{ ...photo("youth-conference"), tag: { title: "Careers", sub: "Internships and graduate roles" } }} title={<>Do the best work of <Serif>your career.</Serif></>} eyebrow="Careers" crumbs={[{ label: "Careers" }]}
         lead="Join a team solving real infrastructure, security and AI problems for businesses across Africa, with certification and mentoring built in."
-        actions={<><a className="btn" href="#apply" data-magnetic>Submit Your CV <Arrow /></a><a className="btn btn--outline-light" href="#positions">Open positions</a></>} />
+        actions={<><a className="btn" href="#apply">Submit Your CV <Arrow /></a><a className="btn btn--outline-light" href="#positions">Open positions</a></>} />
 
       <section className="section" id="positions" aria-labelledby="pos-h" style={{ scrollMarginTop: 96 }}>
         <div className="container">
@@ -43,7 +44,6 @@ export default function Careers() {
       <section className="section section--dark" id="internship" aria-labelledby="int-h" style={{ scrollMarginTop: 96 }}>
         <div className="container split split--even">
           <div>
-            <p className="eyebrow">Internship &amp; graduate programmes</p>
             <Split className="h2" id="int-h">Start your IT career with real work.</Split>
             <p className="lead reveal">Structured six- to twelve-month programmes pairing graduates and interns with senior engineers on live client projects.</p>
           </div>
@@ -57,7 +57,6 @@ export default function Careers() {
       <section className="section section--tint" id="apply" aria-labelledby="ap-h" style={{ scrollMarginTop: 96 }}>
         <div className="container split">
           <div>
-            <p className="eyebrow">Submit your CV</p>
             <Split className="h2" id="ap-h">Apply to EBSL.</Split>
             <p className="lead reveal">PDF or Word, up to 5MB. You&apos;ll get an acknowledgement by email, and our HR team reviews every application.</p>
           </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
-import { AiVisual, CtaBand, d, FeatureList, PageHero, SectionHead, Serif, Split } from "@/components/ui";
+import { AgentRunDemo } from "@/components/ProductUI";
+import { CtaBand, d, FeatureList, PageHero, SectionHead, Serif, Split } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Agentic AI (Grace AI): Intelligent Automation for the Enterprise",
@@ -32,27 +33,26 @@ const tiers = [
 ];
 const compare: string[][] = [
   ["Production agents", "1", "Up to 5", "Unlimited"], ["Integrations", "2", "10", "Unlimited"],
-  ["Human-in-the-loop approvals", "✓", "✓", "✓"], ["Analytics dashboard", "Basic", "Advanced", "Advanced + custom"],
-  ["Deployment", "EBSL cloud", "EBSL cloud", "Cloud, private or on-premise"], ["SSO & audit logs", "✗", "✗", "✓"],
+  ["Human-in-the-loop approvals", "yes", "yes", "yes"], ["Analytics dashboard", "Basic", "Advanced", "Advanced + custom"],
+  ["Deployment", "EBSL cloud", "EBSL cloud", "Cloud, private or on-premise"], ["SSO & audit logs", "no", "no", "yes"],
   ["Support", "Business hours", "Priority", "24/7 dedicated"],
 ];
 
 export default function AgenticAI() {
   return (
     <>
-      <PageHero title={<>Agentic AI: <Serif>intelligent automation</Serif> for the modern enterprise.</>}
+      <PageHero media={{ node: <AgentRunDemo />, size: "auto", tag: { title: "Grace AI", sub: "Sample agent runs" }, tags: ["New"] }} title={<>Agentic AI for the enterprise.</>}
         eyebrow={<><span className="badge-new">New</span>&nbsp; Grace AI</>}
         lead="Grace AI is the agentic AI platform EBSL has acquired and deploys for African businesses. Its agents take action on your behalf: planning, deciding and completing multi-step tasks across the tools you already use."
         crumbs={[{ label: "Services", href: "/services" }, { label: "Agentic AI" }]}
         actions={<>
-          <Link className="btn" href="/demo?product=Agentic%20AI" data-magnetic>Book a Demo <Arrow /></Link>
+          <Link className="btn" href="/demo?product=Agentic%20AI">Book a Demo <Arrow /></Link>
           <Link className="btn btn--outline-light" href="/consultation">Talk to an Expert</Link>
-        </>}
-        aside={<AiVisual />} />
+        </>} />
 
       <section className="section" aria-labelledby="what-h">
         <div className="container split">
-          <div><p className="eyebrow">What is agentic AI?</p><Split className="h2" id="what-h">AI that <Serif>acts,</Serif> not just answers.</Split></div>
+          <div><Split className="h2" id="what-h">AI that acts, not just answers.</Split></div>
           <div className="reveal">
             <p className="lead" style={{ color: "var(--body)" }}>
               Unlike traditional AI that responds to commands, agentic AI takes independent action, makes decisions, and completes multi-step tasks
@@ -84,7 +84,6 @@ export default function AgenticAI() {
       <section className="section section--dark" aria-labelledby="why-h">
         <div className="container split split--even">
           <div>
-            <p className="eyebrow">Why EBSL</p>
             <Split className="h2" id="why-h">Why EBSL&apos;s Agentic AI?</Split>
             <p className="lead reveal">Global-grade AI with a local team that installs it, secures it, trains your people and stays accountable.</p>
           </div>
@@ -115,7 +114,11 @@ export default function AgenticAI() {
               <thead><tr><th scope="col">Feature</th><th scope="col">Starter</th><th scope="col">Business</th><th scope="col">Enterprise</th></tr></thead>
               <tbody>
                 {compare.map(([f, ...c]) => (
-                  <tr key={f}><th scope="row">{f}</th>{c.map((v, i) => <td key={i} className={v === "✓" ? "y" : ""}>{v === "✓" ? <><span aria-hidden="true">✓</span><span className="sr-only">Included</span></> : v === "✗" ? <><span aria-hidden="true">✗</span><span className="sr-only">Not included</span></> : v}</td>)}</tr>
+                  <tr key={f}><th scope="row">{f}</th>{c.map((v, i) => (
+                    <td key={i} className={v === "yes" ? "y" : ""}>
+                      {v === "yes" ? <><Icon name="check" /><span className="sr-only">Included</span></>
+                        : v === "no" ? <><Icon name="x" /><span className="sr-only">Not included</span></> : v}
+                    </td>))}</tr>
                 ))}
               </tbody>
             </table>

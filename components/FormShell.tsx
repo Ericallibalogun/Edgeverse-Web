@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { ReactNode } from "react";
 import Icon from "./Icon";
 import { PageHero } from "./ui";
@@ -9,12 +10,14 @@ export default function FormShell({ title, lead, crumb, eyebrow, points, childre
 }) {
   return (
     <>
-      <PageHero title={title} lead={lead} eyebrow={eyebrow} crumbs={[{ label: crumb }]} />
+      <PageHero title={title} lead={lead} eyebrow={eyebrow} crumbs={[{ label: crumb }]}
+        media={{ ...photo("support-agent"), size: "band",
+          tag: { title: "We reply within one business day", sub: "From the EBSL team in Lekki" } }} />
       <section className="section section--tint" style={{ paddingTop: "clamp(48px, 6vw, 80px)" }}>
         <div className="container split">
           <aside className="reveal" aria-label="What happens next">
             <h2 className="h3">What happens next</h2>
-            <ol className="cap-list" style={{ marginTop: 16 }}>{points.map((p) => <li key={p}>{p}</li>)}</ol>
+            <ol className="next-steps">{points.map((p) => <li key={p}>{p}</li>)}</ol>
             <div className="contact-tiles">
               <a className="contact-tile" href={waChat} target="_blank" rel="noopener noreferrer">
                 <span className="svc-icon" style={{ background: "#DCFCE7", color: "var(--wa-dark)" }}><Icon name="whatsapp" /></span>

@@ -40,7 +40,6 @@ export default function Header() {
   const [drawer, setDrawer] = useState(false);
   const [acc, setAcc] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [glass, setGlass] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const closeT = useRef<ReturnType<typeof setTimeout>>(undefined);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -49,25 +48,24 @@ export default function Header() {
   // Close menus on navigation
   useEffect(() => { setOpen(null); setDrawer(false); }, [path]);
 
-  // Transparent at the very top (over the hero); frosted glass as soon as the page scrolls,
-  // so hero text never slides under bare nav links.
-  // Also drives the scroll progress bar. The bar always stays visible.
+  // A soft shadow once the page scrolls, so the sticky bar separates from content beneath it.
   useEffect(() => {
-    let ticking = false;
-    const bar = document.querySelector<HTMLElement>(".progress");
-    const run = () => {
-      const y = window.scrollY;
-      setScrolled(y > 8);
-      setGlass(y > 8);
-      if (bar) { const h = document.documentElement.scrollHeight - innerHeight; bar.style.transform = `scaleX(${h > 0 ? y / h : 0})`; }
-      ticking = false;
-    };
-    const onScroll = () => { if (!ticking) { requestAnimationFrame(run); ticking = true; } };
+    const run = () => setScrolled(window.scrollY > 8);
     run();
-    addEventListener("scroll", onScroll, { passive: true });
-    addEventListener("resize", onScroll);
-    return () => { removeEventListener("scroll", onScroll); removeEventListener("resize", onScroll); };
-  }, [path]);
+    addEventListener("scroll", run, { passive: true });
+    return () => removeEventListener("scroll", run);
+  }, []);
+
+  // Publish the header's real height (it changes when the top bar wraps) for full-screen heroes.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => { if (!(e.target as Element).closest(".nav-item.has-dd")) setOpen(null); };
@@ -102,8 +100,7 @@ export default function Header() {
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
-      <div className="progress" aria-hidden="true" />
-      <header ref={headerRef} className={`site-header${scrolled ? " is-scrolled" : ""}${glass ? " is-glass" : ""}`}>
+      <header ref={headerRef} className={`site-header${scrolled ? " is-scrolled" : ""}`}>
         <div className="topbar">
           <div className="container">
             <div className="topbar-contact">
@@ -116,7 +113,7 @@ export default function Header() {
 
         <div className="container nav-row">
           <Link className="brand" href="/" aria-label="EBSL home">
-            <Image src="/img/logo-light.webp" alt="Edgeverve Business Solutions" width={108} height={40} style={{ width: "auto" }} priority />
+            <Image src="/img/logo-dark.webp" alt="Edgeverve Business Solutions" width={108} height={40} style={{ width: "auto" }} priority />
           </Link>
 
           <nav className="nav" aria-label="Primary">
@@ -166,7 +163,7 @@ export default function Header() {
           </nav>
 
           <div className="header-cta">
-            <Link className="btn btn--sm" href="/service-request" data-magnetic>Get Started <Arrow /></Link>
+            <Link className="btn btn--sm" href="/service-request">Get Started <Arrow /></Link>
             <button ref={toggleRef} className="menu-toggle" type="button" aria-expanded={drawer} aria-controls="drawer"
               aria-label="Open menu" onClick={() => setDrawer(true)}><span /></button>
           </div>

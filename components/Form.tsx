@@ -127,7 +127,7 @@ export function EbslForm({ kind, children, success, className = "", submitLabel,
         <div className="form-grid">
           {children}
           <div className="full">
-            <button className="btn" type="submit" disabled={busy} data-magnetic>{busy ? "Sending…" : <>{submitLabel ?? "Submit"} <Arrow /></>}</button>
+            <button className="btn" type="submit" disabled={busy}>{busy ? "Sending…" : <>{submitLabel ?? "Submit"} <Arrow /></>}</button>
             <p className={`form-status${status ? " is-error" : ""}`} role="alert" aria-live="polite">{status}</p>
             <p className="hint" style={{ marginTop: 8 }}>
               We reply within one business day. Your details are handled under our <Link className="link-arrow" href="/privacy-policy">Privacy Policy</Link>.

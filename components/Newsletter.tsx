@@ -7,8 +7,7 @@ export default function Newsletter() {
       <div className="container">
         <div className="newsletter reveal">
           <div>
-            <p className="eyebrow" style={{ color: "#fff" }}>Newsletter</p>
-            <Split className="h2" id="nl-h">Strategy notes for <em className="serif">tech-led</em> leaders.</Split>
+            <Split className="h2" id="nl-h">Strategy notes for tech-led leaders.</Split>
           </div>
           <div>
             <p>Monthly insights on infrastructure, security and AI, written for decision makers in Nigeria and across Africa. No spam.</p>

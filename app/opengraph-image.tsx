@@ -8,7 +8,7 @@ export default function OG() {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72,
-        background: "radial-gradient(circle at 85% 10%, #0A7BE6 0%, #003366 40%, #000F1F 85%)", color: "#fff", fontFamily: "sans-serif" }}>
+        background: "#001A33", color: "#fff", fontFamily: "sans-serif" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 28, fontWeight: 700, color: "#A9B8CC" }}>
           <div style={{ width: 14, height: 14, borderRadius: 14, background: "#FFB81C" }} /> EDGEVERVE BUSINESS SOLUTIONS
         </div>

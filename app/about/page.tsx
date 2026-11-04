@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,15 +30,14 @@ const values: [IconName, string, string][] = [
 export default function About() {
   return (
     <>
-      <PageHero title={<>Your partner for <Serif>accelerated</Serif> digital transformation.</>} eyebrow="About EBSL"
+      <PageHero media={{ ...photo("lagos-island"), tag: { title: "EBSL Towers", sub: "17C Saliu Aina Lawal Way, Lekki" }, tags: ["Lekki, Lagos"] }} title={<>Your technology partner in Lagos.</>} eyebrow="About EBSL"
         lead="We architect enduring transformation, not just implementation, for businesses across Nigeria and Africa."
         crumbs={[{ label: "About" }]}
-        actions={<><Link className="btn" href="/contact?subject=Partnership" data-magnetic>Partner With Us <Arrow /></Link><Link className="btn btn--outline-light" href="/services">Our Services</Link></>} />
+        actions={<><Link className="btn" href="/contact?subject=Partnership">Partner With Us <Arrow /></Link><Link className="btn btn--outline-light" href="/services">Our Services</Link></>} />
 
       <section className="section" id="who-we-are" aria-labelledby="who-h">
         <div className="container split split--even">
           <div>
-            <p className="eyebrow">Who we are</p>
             <Split className="h2" id="who-h">Strategy, engineering and people, <Serif>in one team.</Serif></Split>
             <p className="lead reveal" style={{ color: "var(--body)" }}>
               Edgeverve Business Solutions Ltd (EBSL) is a technology-driven provider headquartered at EBSL Towers in Lekki, Lagos. We deliver the strategic innovation,
@@ -49,7 +49,7 @@ export default function About() {
             </p>
           </div>
           <div className="media-frame reveal" style={{ aspectRatio: "4 / 5" }}>
-            <Image src="/img/about-collab.webp" alt="EBSL team members gathered around a laptop, reviewing work together" fill unoptimized sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+            <Image src="/img/about-collab.webp" alt="Four colleagues gathered around a laptop, reviewing work together" fill unoptimized sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
           </div>
         </div>
       </section>
@@ -58,12 +58,12 @@ export default function About() {
         <div className="container">
           <div className="grid grid-2">
             <div className="reveal">
-              <p className="eyebrow">Our mission</p>
-              <h2 className="h2" id="mis-h">To empower businesses through strategic technology that is secure, scalable and built to last.</h2>
+              <h2 className="h3" id="mis-h">Our mission</h2>
+              <p className="statement">To empower businesses through strategic technology that is secure, scalable and built to last.</p>
             </div>
             <div className="reveal" style={d(120)}>
-              <p className="eyebrow">Our vision</p>
-              <p className="h2" style={{ color: "#fff" }}>To be Africa&apos;s most trusted partner for <Serif>digital transformation.</Serif></p>
+              <h2 className="h3">Our vision</h2>
+              <p className="statement">To be Africa&apos;s most trusted partner for digital transformation.</p>
             </div>
           </div>
           <div className="grid grid-4 mt-l">
@@ -77,18 +77,16 @@ export default function About() {
       <section className="section" id="dna" aria-labelledby="dna-h">
         <div className="container process-wrap">
           <div className="process-intro">
-            <p className="eyebrow">Our DNA | Legacy walk</p>
             <Split className="h2" id="dna-h">How we got here.</Split>
             <p className="lead reveal">Each chapter added a capability our clients asked for. The thread through all of it: dependable execution.</p>
           </div>
-          <div className="process-stack">
+          <ol className="stack-list">
             {dna.map(([k, t, x], i) => (
-              <article className="process-card" style={{ ["--i" as string]: i, gridTemplateColumns: "auto 1fr" }} key={t}>
-                <span className="step" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                <div><p className="eyebrow" style={{ marginBottom: 8 }}>{k}</p><h3 className="h3">{t}</h3><p>{x}</p></div>
-              </article>
+              <li className="reveal" style={d(i * 60)} key={t}>
+                <h3 className="h3">{k}: {t.charAt(0).toLowerCase() + t.slice(1)}</h3><p>{x}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
@@ -116,7 +114,6 @@ export default function About() {
       <section className="section" id="partners" aria-labelledby="pt-h">
         <div className="container split">
           <div>
-            <p className="eyebrow">Our partners &amp; OEM brands</p>
             <Split className="h2" id="pt-h">Certified with the platforms you run.</Split>
             <p className="lead reveal">Authorised partnerships mean genuine products, manufacturer warranties and engineers trained on the technology they deploy.</p>
             <div className="hero-actions mt-m reveal">

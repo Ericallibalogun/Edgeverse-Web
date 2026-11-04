@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
 import { EbslForm, Field } from "@/components/Form";
+import { PhlypDemo } from "@/components/ProductUI";
 import { d, PageHero, QrCard, SectionHead, Serif, Split } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -22,12 +23,12 @@ const steps = [
 export default function PhlypPay() {
   return (
     <>
-      <PageHero title={<>Phlyp Pay: <Serif>fast, secure,</Serif> QR-powered payments.</>}
+      <PageHero media={{ node: <PhlypDemo />, size: "auto", tag: { title: "Phlyp Pay", sub: "Try a sample checkout" }, tags: ["New"] }} title={<>Phlyp Pay: <Serif>fast, secure,</Serif> QR-powered payments.</>}
         eyebrow={<><span className="badge-new">New</span>&nbsp; Phlyp Pay</>}
         lead="Accept payments instantly with a simple QR scan. No POS terminal needed."
         crumbs={[{ label: "Services", href: "/services" }, { label: "Phlyp Pay" }]}
         actions={<>
-          <a className="btn" href="#access" data-magnetic>Request Access <Arrow /></a>
+          <a className="btn" href="#access">Request Access <Arrow /></a>
           <a className="btn btn--outline-light" href="#how">How it works</a>
         </>} />
 
@@ -43,7 +44,6 @@ export default function PhlypPay() {
       <section className="section spot-pay" aria-labelledby="qr-h">
         <div className="container split split--even">
           <div>
-            <p className="eyebrow">Try it</p>
             <Split className="h2" id="qr-h">Try a test scan.</Split>
             <p className="lead reveal">Point your phone camera at the code to see the Phlyp Pay flow. The production EBSL code will appear here at launch.</p>
             <p className="notice reveal">QR payment portal currently in final development. Request early access below.</p>
@@ -67,7 +67,6 @@ export default function PhlypPay() {
       <section className="section section--tint" id="access" aria-labelledby="acc-h" style={{ scrollMarginTop: 96 }}>
         <div className="container split">
           <div>
-            <p className="eyebrow">Early access</p>
             <Split className="h2" id="acc-h">Request access.</Split>
             <p className="lead reveal">Join the first businesses accepting payments with Phlyp Pay. We&apos;ll confirm by email and get you onboarded.</p>
           </div>

@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Icon from "@/components/Icon";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 export default function Process() {
   return (
     <>
-      <PageHero title={<>Our process: we <Serif>architect</Serif> transformation.</>} eyebrow="Methodology"
+      <PageHero media={{ ...photo("workshop-notes"), size: "band", tag: { title: "Six frameworks", sub: "ITIL, Lean Six Sigma, MOF and more" } }} title={<>Our process: we <Serif>architect</Serif> transformation.</>} eyebrow="Methodology"
         lead="Six globally recognised frameworks sit underneath every EBSL engagement. Here's what each one does for you."
         crumbs={[{ label: "Services", href: "/services" }, { label: "Our process" }]} />
       <section className="section">

@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
@@ -24,7 +25,7 @@ const items: { cat: string; caption: string; src?: string; art?: "a" | "b" | "c"
 export default function Gallery() {
   return (
     <>
-      <PageHero title={<>Inside <Serif>EBSL.</Serif></>} eyebrow="Gallery" crumbs={[{ label: "Media", href: "/insights" }, { label: "Gallery" }]}
+      <PageHero media={{ ...photo("lekki-bridge-night"), size: "band", tag: { title: "Inside EBSL", sub: "Events, projects and training" } }} title={<>Inside <Serif>EBSL.</Serif></>} eyebrow="Gallery" crumbs={[{ label: "Media", href: "/insights" }, { label: "Gallery" }]}
         lead="Events, projects, training and the team. Follow along for the latest photos and video."
         actions={<>
           <WaChannelButton />

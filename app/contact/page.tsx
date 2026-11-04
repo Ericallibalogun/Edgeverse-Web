@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Icon from "@/components/Icon";
 import { EbslForm, Field } from "@/components/Form";
@@ -19,7 +20,7 @@ export default function Contact() {
   ];
   return (
     <>
-      <PageHero title={<>Let&apos;s <Serif>talk.</Serif></>} eyebrow="Contact" crumbs={[{ label: "Contact" }]}
+      <PageHero media={{ ...photo("lekki-bridge"), size: "band", tag: { title: "EBSL Towers", sub: "17C Saliu Aina Lawal Way, Lekki" }, tags: [site.phone] }} title={<>Let&apos;s <Serif>talk.</Serif></>} eyebrow="Contact" crumbs={[{ label: "Contact" }]}
         lead="Questions, partnerships or a project in mind: reach us however suits you. We reply within one business day." />
       <section className="section section--tint" style={{ paddingTop: "clamp(48px, 6vw, 80px)" }}>
         <div className="container split">

@@ -1,13 +1,13 @@
 export type Insight = {
   slug: string; tag: "Case study" | "Insight" | "News"; title: string; summary: string;
-  art: "a" | "b" | "c"; date: string; read: string; body: { h?: string; p?: string; list?: string[]; quote?: string }[];
+  art: "a" | "b" | "c"; image: string; imageAlt: string; date: string; read: string; body: { h?: string; p?: string; list?: string[]; quote?: string }[];
 };
 
 // TODO(EBSL): replace with real case-study content (spec §11). Kept generic: no client names or invented figures.
 export const insights: Insight[] = [
   {
-    slug: "itil-service-management-nigeria", tag: "Case study", art: "a", date: "2026-01-20", read: "6 min",
-    title: "How ITIL-led service management turns a reactive helpdesk into a predictable service",
+    slug: "itil-service-management-nigeria", tag: "Case study", art: "a", image: "/img/photos/datacentre-racks.webp", imageAlt: "Rows of server racks in a data centre", date: "2026-01-20", read: "6 min",
+    title: "From reactive helpdesk to predictable IT",
     summary: "Standardising incident, change and problem management gives IT teams control of their backlog.",
     body: [
       { p: "Most IT teams we meet are not short of effort. They are short of structure. Requests arrive by phone, WhatsApp, email and hallway conversations; nobody can say how many are open, which are urgent, or why the same faults keep returning." },
@@ -21,8 +21,8 @@ export const insights: Insight[] = [
     ],
   },
   {
-    slug: "cybersecurity-framework-2026", tag: "Insight", art: "b", date: "2026-02-04", read: "8 min",
-    title: "A practical cybersecurity framework for Nigerian businesses in 2026",
+    slug: "cybersecurity-framework-2026", tag: "Insight", art: "b", image: "/img/photos/server-hall.webp", imageAlt: "A large hall of server racks", date: "2026-02-04", read: "8 min",
+    title: "A 90-day cybersecurity plan for Nigerian firms",
     summary: "The controls that close most of the gaps we find in audits, and how to roll them out in 90 days.",
     body: [
       { p: "Security frameworks can feel like they were written for organisations with ten-person security teams. Most Nigerian businesses don't have that. What they need is a short list of controls that stop the most common attacks, rolled out in an order that makes sense." },
@@ -35,8 +35,8 @@ export const insights: Insight[] = [
     ],
   },
   {
-    slug: "agentic-ai-for-enterprise", tag: "News", art: "c", date: "2026-02-12", read: "5 min",
-    title: "EBSL launches Agentic AI: what it changes for enterprise operations",
+    slug: "agentic-ai-for-enterprise", tag: "News", art: "c", image: "/img/about-collab.webp", imageAlt: "Four colleagues gathered around a laptop, reviewing work together", date: "2026-02-12", read: "5 min",
+    title: "What agentic AI changes for operations",
     summary: "AI that acts, not just answers: where autonomous agents pay off, and where they still need a human.",
     body: [
       { p: "EBSL now offers Grace AI, an agentic AI platform for African enterprises. Unlike a chatbot, an agent is given a goal, works out the steps, uses your systems to complete them, and reports back." },

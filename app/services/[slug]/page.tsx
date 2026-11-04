@@ -1,3 +1,4 @@
+import { photo, type PhotoKey } from "@/lib/photos";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -5,6 +6,11 @@ import Icon, { Arrow } from "@/components/Icon";
 import { CtaBand, d, Faq, FeatureList, PageHero, SectionHead, Split, SvcCards } from "@/components/ui";
 import { serviceDetail } from "@/lib/service-detail";
 import { site, svc, waChat } from "@/lib/site";
+
+const heroPhoto: Record<string, PhotoKey> = {
+  infrastructure: "server-racks", consulting: "operations-review", cybersecurity: "server-room-dark",
+  outsourcing: "bpo-floor", procurement: "laptop-keyboard", training: "training-session", software: "programmer",
+};
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,9 +34,9 @@ export default async function ServicePage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHero title={det.title} lead={det.lead} eyebrow={s.name} crumbs={[{ label: "Services", href: "/services" }, { label: s.name }]}
+      <PageHero media={{ ...photo(heroPhoto[slug] ?? "server-racks"), tag: { title: s.name, sub: "EBSL service" }, tags: ["Lekki, Lagos"] }} title={det.title} lead={det.lead} eyebrow={s.name} crumbs={[{ label: "Services", href: "/services" }, { label: s.name }]}
         actions={<>
-          <Link className="btn" href={det.cta.href} data-magnetic>{det.cta.label} <Arrow /></Link>
+          <Link className="btn" href={det.cta.href}>{det.cta.label} <Arrow /></Link>
           <a className="btn btn--outline-light" href={waChat} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> WhatsApp us</a>
         </>} />
 
@@ -50,7 +56,6 @@ export default async function ServicePage({ params }: Props) {
       <section className="section section--tint" aria-labelledby="out-h">
         <div className="container split split--even">
           <div>
-            <p className="eyebrow">Outcomes</p>
             <Split className="h2" id="out-h">What changes for you.</Split>
             <div className="mt-m reveal"><FeatureList items={det.outcomes} /></div>
             <Link className="btn mt-m reveal" href={det.cta.href}>{det.cta.label} <Arrow /></Link>

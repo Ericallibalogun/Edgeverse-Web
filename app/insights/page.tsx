@@ -1,3 +1,4 @@
+import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Filter from "@/components/Filter";
 import Newsletter from "@/components/Newsletter";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 export default function Insights() {
   return (
     <>
-      <PageHero title={<>Insights &amp; <Serif>case studies.</Serif></>} eyebrow="Media" crumbs={[{ label: "Insights" }]}
+      <PageHero media={{ ...photo("optic-fibre"), size: "band", tag: { title: "Insights", sub: "Case studies, notes and news" } }} title={<>Insights &amp; <Serif>case studies.</Serif></>} eyebrow="Media" crumbs={[{ label: "Insights" }]}
         lead="What we're learning from the field: practical notes on infrastructure, security, service management and AI." actions={<WaChannelButton />} />
       <section className="section">
         <div className="container">

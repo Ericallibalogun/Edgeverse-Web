@@ -3,7 +3,7 @@ import { insights } from "@/lib/insights";
 import { services, site } from "@/lib/site";
 
 const pages = ["", "/about", "/services", "/process", "/service-request", "/demo", "/consultation", "/training-enrol",
-  "/contact", "/careers", "/insights", "/blog", "/gallery", "/privacy-policy", "/terms"];
+  "/contact", "/careers", "/insights", "/blog", "/gallery", "/privacy-policy", "/terms", "/credits"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
