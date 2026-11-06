@@ -6,7 +6,6 @@ export type Photo = { src: string; alt: string; title: string; creator: string; 
 
 export const photos = {
   "ikoyi-lagos": { src: "/img/photos/ikoyi-lagos.webp", alt: "Aerial view of Ikoyi, Lagos, with Victoria Island across the lagoon", title: "Ikoyi, Lagos, Nigeria", creator: "Holyreg", license: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Ikoyi,_Lagos,_Nigeria.jpg" },
-  "lagos-island": { src: "/img/photos/lagos-island.webp", alt: "Office towers and rooftops of Lagos Island", title: "Lagos Island City Scape", creator: "Jamie Tubers", license: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Lagos_Island_City_Scape.jpg" },
   "workshop-notes": { src: "/img/photos/workshop-notes.webp", alt: "Whiteboard covered in sticky notes from a planning workshop", title: "Design Thinking Workshop WMDE 1", creator: "Corinna Schuster (WMDE)", license: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Design_Thinking_Workshop_WMDE_1.jpg" },
   "youth-conference": { src: "/img/photos/youth-conference.webp", alt: "Young speakers on stage at a youth conference in Nigeria", title: "Discovery For Youths 73", creator: "MediaMOF", license: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Discovery_For_Youths_73.jpg" },
   "lekki-bridge": { src: "/img/photos/lekki-bridge.webp", alt: "The Lekki-Ikoyi Link Bridge in Lagos, with cars crossing", title: "Lekki link bridge with vehicles", creator: "Omoeko Media", license: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Lekki_link_bridge_with_vehicles.jpg" },

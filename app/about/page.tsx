@@ -1,10 +1,10 @@
-import { photo } from "@/lib/photos";
+import { aboutHero } from "@/lib/generated";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
 import Newsletter from "@/components/Newsletter";
-import { CtaBand, d, LogoWall, PageHero, PartnersMarquee, SectionHead, Serif, Split, WaChannelButton } from "@/components/ui";
+import { CtaBand, d, LogoWall, PageHero, SectionHead, Serif, Split, WaChannelButton } from "@/components/ui";
 import { team } from "@/lib/people";
 
 export const metadata: Metadata = {
@@ -30,26 +30,23 @@ const values: [IconName, string, string][] = [
 export default function About() {
   return (
     <>
-      <PageHero media={{ ...photo("lagos-island"), tag: { title: "EBSL Towers", sub: "17C Saliu Aina Lawal Way, Lekki" }, tags: ["Lekki, Lagos"] }} title={<>Your technology partner in Lagos.</>} eyebrow="About EBSL"
+      <PageHero media={{ ...aboutHero, position: "50% 46%", priority: true, tag: { title: "Built in Lagos", sub: "Strategy, engineering and support" }, tags: ["Lekki, Lagos"] }} title={<>Your technology partner in Lagos.</>} eyebrow="About EBSL"
         lead="We architect enduring transformation, not just implementation, for businesses across Nigeria and Africa."
         crumbs={[{ label: "About" }]}
         actions={<><Link className="btn" href="/contact?subject=Partnership">Partner With Us <Arrow /></Link><Link className="btn btn--outline-light" href="/services">Our Services</Link></>} />
 
       <section className="section" id="who-we-are" aria-labelledby="who-h">
-        <div className="container split split--even">
+        <div className="container who-split">
+          <Split className="h2" id="who-h">Strategy, engineering and people, <Serif>in one team.</Serif></Split>
           <div>
-            <Split className="h2" id="who-h">Strategy, engineering and people, <Serif>in one team.</Serif></Split>
             <p className="lead reveal" style={{ color: "var(--body)" }}>
               Edgeverve Business Solutions Ltd (EBSL) is a technology-driven provider headquartered at EBSL Towers in Lekki, Lagos. We deliver the strategic innovation,
               robust infrastructure and reliable execution that organisations need to future-proof their digital landscape.
             </p>
-            <p className="reveal">
+            <p className="reveal" style={d(80)}>
               Our methodology is built on trust and deep expertise, anchored in globally recognised frameworks (ITIL, Lean &amp; Six Sigma, MOF and the Balanced Scorecard),
               so outcomes are scalable, sustainable and measurable.
             </p>
-          </div>
-          <div className="media-frame reveal" data-parallax="" style={{ aspectRatio: "4 / 5" }}>
-            <Image src="/img/about-collab.webp" alt="Four colleagues gathered around a laptop, reviewing work together" fill unoptimized sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
           </div>
         </div>
       </section>
@@ -123,7 +120,6 @@ export default function About() {
           </div>
           <div className="reveal"><LogoWall /></div>
         </div>
-        <div className="container mt-l"><PartnersMarquee /></div>
       </section>
 
       <Newsletter />

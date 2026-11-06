@@ -110,6 +110,14 @@ export default function Motion() {
         if (logos.length) tl.from(logos, { y: 24, opacity: 0, duration: 0.6, stagger: 0.12 }, 1.2);
       });
 
+      // Footer wordmark rises into its frame as the footer arrives.
+      gsap.utils.toArray<HTMLElement>(".footer-ebsl span").forEach((word) => {
+        gsap.fromTo(word, { yPercent: 45 }, {
+          yPercent: 0, ease: "none",
+          scrollTrigger: { trigger: word.parentElement, start: "top bottom", end: "bottom bottom", scrub: 0.6 },
+        });
+      });
+
       // Lists that tell a sequence: each item steps in as it crosses the lower third.
       gsap.utils.toArray<HTMLElement>(".framework-list > li, .stack-list > li").forEach((item) => {
         item.classList.remove("reveal"); // this scrubbed step-in replaces the CSS entrance on these items

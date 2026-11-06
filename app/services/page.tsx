@@ -2,7 +2,7 @@ import { servicesHero } from "@/lib/generated";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Icon, { Arrow } from "@/components/Icon";
+import Icon from "@/components/Icon";
 import { CtaBand, d } from "@/components/ui";
 import { services, site } from "@/lib/site";
 
@@ -17,12 +17,9 @@ export const metadata: Metadata = {
 export default function Services() {
   return (
     <>
-      {/* Centred hero: headline, then a photo with stat cards and service tags cut into its corners */}
+      {/* Centred hero filling the first screen: headline, then a photo with stat cards and service tags cut into its corners */}
       <section className="hero svc-hero" aria-labelledby="svc-hero-h">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="crumbs-pill intro">
-            <ol className="crumbs"><li><Link href="/">Home</Link></li><li aria-current="page">Services</li></ol>
-          </nav>
           <h1 className="hero-title intro" id="svc-hero-h">Every capability your technology needs.</h1>
           <p className="lead intro" style={d(80)}>Nine practices, one accountable partner. Pick a starting point, or tell us the problem and we&apos;ll assemble the team.</p>
           <div className="svc-stage intro" style={d(200)}>
@@ -35,10 +32,6 @@ export default function Services() {
             <ul className="svc-card svc-tags" aria-label="Our services">
               {services.map((s) => <li key={s.slug}><Link href={s.href}>{s.name.split(" (")[0].replace(" & Advisory", "").replace(" Solutions", "").replace(" QR Payments", "").replace(" & Learning Academy", "")}</Link></li>)}
             </ul>
-          </div>
-          <div className="svc-cta intro" style={d(280)}>
-            <Link className="btn" href="/consultation">Book a Free Consultation <Arrow /></Link>
-            <Link className="btn btn--outline" href="/service-request">Get Started</Link>
           </div>
         </div>
       </section>

@@ -52,8 +52,9 @@ export default function Footer() {
               <div className="social"><SocialLinks channel /></div>
             </div>
           </div>
-          <p className="footer-word" aria-hidden="true">Edgeverve Business Solutions</p>
+          <div className="footer-ebsl" aria-hidden="true"><span>EBSL</span></div>
         </div>
+        <div className="footer-base">
         <div className="footer-bottom container">
           <span>© {new Date().getFullYear()} EBSL | Edgeverve Business Solutions Ltd. All rights reserved.</span>
           <nav aria-label="Legal">
@@ -62,6 +63,7 @@ export default function Footer() {
             <Link href="/credits">Photo credits</Link>
             <a href="/sitemap.xml">Sitemap</a>
           </nav>
+        </div>
         </div>
       </footer>
       <a className="wa-float" href={waChat} target="_blank" rel="noopener noreferrer" aria-label="Chat with EBSL on WhatsApp (opens in new tab)">
