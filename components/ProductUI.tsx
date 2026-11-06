@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import Icon from "./Icon";
 import { QrPattern } from "./ui";
 
@@ -137,21 +137,56 @@ const runs: Run[] = [
 
 export function AgentRunDemo() {
   const [active, setActive] = useState(runs[0].id);
+  const [play, setPlay] = useState(false);
+  const [quick, setQuick] = useState(false);
+  const [ind, setInd] = useState<{ x: number; w: number } | null>(null);
+  const [sliding, setSliding] = useState(false);
+  const slideT = useRef<ReturnType<typeof setTimeout>>(undefined);
   const run = runs.find((r) => r.id === active)!;
   const baseId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  // Play the step-by-step sequence once, when the panel first comes into view.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || !("IntersectionObserver" in window)) { setPlay(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setPlay(true); io.disconnect(); } }, { rootMargin: "0px 0px -25% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Sliding indicator under the active tab.
+  useLayoutEffect(() => {
+    const measure = () => {
+      const btn = tabsRef.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]');
+      if (btn) setInd({ x: btn.offsetLeft, w: btn.offsetWidth });
+    };
+    measure();
+    addEventListener("resize", measure);
+    return () => removeEventListener("resize", measure);
+  }, [active]);
+
+  const choose = (id: string) => {
+    if (id === active) return;
+    setPlay(true); setQuick(true); setSliding(true); setActive(id);
+    clearTimeout(slideT.current);
+    slideT.current = setTimeout(() => setSliding(false), 260);
+  };
   const onKey = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     const next = runs[(i + (e.key === "ArrowRight" ? 1 : runs.length - 1)) % runs.length];
-    setActive(next.id);
+    choose(next.id);
     document.getElementById(`${baseId}-tab-${next.id}`)?.focus();
   };
   return (
-    <div className="agent-demo">
-      <div className="agent-tabs" role="tablist" aria-label="Sample agent runs">
+    <div className="agent-demo" data-ui ref={rootRef} data-play={play || undefined} data-quick={quick || undefined}>
+      <div className={`agent-tabs${ind && sliding ? " is-sliding" : ""}`} role="tablist" aria-label="Sample agent runs" ref={tabsRef}>
+        {ind && <span className="agent-tab-ind" aria-hidden="true" style={{ transform: `translateX(${ind.x}px) scaleX(${ind.w / 100})` }} />}
         {runs.map((r, i) => (
           <button key={r.id} id={`${baseId}-tab-${r.id}`} role="tab" type="button" aria-selected={r.id === active}
             aria-controls={`${baseId}-panel`} tabIndex={r.id === active ? 0 : -1}
-            onClick={() => setActive(r.id)} onKeyDown={(e) => onKey(e, i)}>{r.tab}</button>
+            onClick={() => choose(r.id)} onKeyDown={(e) => onKey(e, i)}>{r.tab}</button>
         ))}
       </div>
       <div className="agent-run" data-ui role="tabpanel" id={`${baseId}-panel`} aria-labelledby={`${baseId}-tab-${run.id}`} key={run.id}>

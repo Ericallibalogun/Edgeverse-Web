@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import HeroVideo from "./HeroVideo";
 import Icon, { Arrow } from "./Icon";
-import { partners, partnerWords, services, site, svc, type Service } from "@/lib/site";
+import { partners, services, site, svc, type Service } from "@/lib/site";
 import type { Insight } from "@/lib/insights";
 
 /** Section or page headline. One face, one colour; it fades in with its section. */
-export function Split({ as: Tag = "h2", className, id, children }: { as?: "h1" | "h2"; className?: string; id?: string; children: ReactNode }) {
-  return <Tag className={`${className ?? ""} reveal`} id={id}>{children}</Tag>;
+export function Split({ as: Tag = "h2", className, id, children, intro }: { as?: "h1" | "h2"; className?: string; id?: string; children: ReactNode; intro?: boolean }) {
+  return <Tag className={`${className ?? ""} ${intro ? "intro" : "reveal"}`} id={id}>{children}</Tag>;
 }
 
 /** Kept for existing call sites: emphasis now comes from the words, not a second typeface. */
@@ -25,6 +26,8 @@ export type HeroMedia = {
   src?: string; alt?: string; node?: ReactNode;
   /** Product fragment laid over the photo, bottom-right. */
   overlay?: ReactNode;
+  /** Ambient video for the frame (plays once; poster shown first and for reduced motion). */
+  video?: { src: string; poster: string };
   /** Notched tab in the frame's top-left corner, and small tags notched into the top-right. */
   tag?: { title: string; sub?: string }; tags?: string[];
   size?: "tall" | "band" | "auto"; position?: string; priority?: boolean;
@@ -32,10 +35,11 @@ export type HeroMedia = {
 
 /** Large round-cornered picture with a label tab and tags cut into its top corners. */
 export function HeroFrame({ media }: { media: HeroMedia }) {
-  const { src, alt = "", node, overlay, tag, tags = [], size = "tall", position, priority } = media;
+  const { src, alt = "", node, overlay, video, tag, tags = [], size = "tall", position, priority } = media;
   return (
-    <figure className={`hero-frame hero-frame--${size}${node ? " hero-frame--ui" : ""} reveal`} style={d(200)}>
-      {src && <Image src={src} alt={alt} fill priority={priority} sizes="100vw" style={{ objectFit: "cover", objectPosition: position }} />}
+    <figure className={`hero-frame hero-frame--${size}${node ? " hero-frame--ui" : ""} intro`} style={d(200)} data-parallax={node ? undefined : ""}>
+      {video ? <HeroVideo src={video.src} poster={video.poster} label={alt} />
+        : src && <Image src={src} alt={alt} fill priority={priority} sizes="100vw" style={{ objectFit: "cover", objectPosition: position }} />}
       {node && <div className="hero-frame-ui">{node}</div>}
       {overlay && <div className="hero-frame-ui--corner">{overlay}</div>}
       {tag && (
@@ -59,7 +63,7 @@ export function HeroTop({ title, lead, actions, crumbs, id }: {
   return (
     <>
       {crumbs && (
-        <nav aria-label="Breadcrumb" className="crumbs-pill reveal">
+        <nav aria-label="Breadcrumb" className="crumbs-pill intro">
           <ol className="crumbs">
             <li><Link href="/">Home</Link></li>
             {crumbs.map((c) => <li key={c.label} aria-current={c.href ? undefined : "page"}>{c.href ? <Link href={c.href}>{c.label}</Link> : c.label}</li>)}
@@ -67,10 +71,10 @@ export function HeroTop({ title, lead, actions, crumbs, id }: {
         </nav>
       )}
       <div className="hero-top">
-        <Split as="h1" className="hero-title" id={id}>{title}</Split>
+        <Split as="h1" className="hero-title" id={id} intro>{title}</Split>
         <div className="hero-side">
-          <p className="lead reveal" style={d(80)}>{lead}</p>
-          {actions && <div className="hero-actions reveal" style={d(160)}>{actions}</div>}
+          <p className="lead intro" style={d(80)}>{lead}</p>
+          {actions && <div className="hero-actions intro" style={d(160)}>{actions}</div>}
         </div>
       </div>
     </>
@@ -156,7 +160,6 @@ export function PartnersMarquee() {
       {partners.map((p) => (
         <li key={p.key}><Image className="logo-item" src={`/img/${p.key}.webp`} alt={p.name} width={163} height={52} /></li>
       ))}
-      {partnerWords.map((w) => <li key={w}><span className="logo-text">{w}</span></li>)}
     </ul>
   );
 }
@@ -167,60 +170,10 @@ export function LogoWall() {
       {partners.map((p) => (
         <li key={p.key}><Image src={`/img/${p.key}.webp`} alt={`${p.name} logo`} width={163} height={52} /></li>
       ))}
-      {["Huawei", "Kaspersky", "Palo Alto", "Check Point"].map((w) => (
-        <li key={w}><span className="logo-word">{w}</span></li>
-      ))}
     </ul>
   );
 }
 
-/** Client logos (supplied with EBSL's go-ahead). Shown on a navy field: the files are the light versions. */
-export const clients = [
-  { key: "unilag", name: "University of Lagos", w: 274 },
-  { key: "meristem", name: "Meristem Securities", w: 484 },
-  { key: "elizade", name: "Elizade Nigeria", w: 364 },
-];
-
-export function TrustedBy() {
-  return (
-    <section className="trusted" aria-labelledby="trusted-h">
-      <div className="container trusted-inner">
-        <h2 className="trusted-title reveal" id="trusted-h">Trusted by teams at University of Lagos, Meristem and Elizade.</h2>
-        <ul className="client-row reveal" style={d(80)}>
-          {clients.map((c) => (
-            <li key={c.key} className={`client-${c.key}`}><Image src={`/img/clients/${c.key}.webp`} alt={c.name} width={c.w} height={120} /></li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-export function AiVisual() {
-  const nodes: [number, number, string][] = [[260, 70, "Plan"], [440, 190, "Decide"], [420, 380, "Act"], [260, 450, "Verify"], [100, 380, "Learn"], [80, 190, "Report"]];
-  const font = "Plus Jakarta Sans, sans-serif";
-  return (
-    <div className="ai-visual" aria-hidden="true">
-      <svg viewBox="0 0 520 520">
-        <circle className="ring" cx="260" cy="260" r="200" />
-        <g className="spin-rev">
-          {nodes.map(([x, y]) => <line key={x + "-" + y} x1="260" y1="260" x2={x} y2={y} stroke="rgba(255,255,255,.22)" />)}
-        </g>
-        {nodes.map(([x, y, l]) => (
-          <g key={l}>
-            <circle cx={x} cy={y} r="34" fill="#0A2F57" />
-            <text x={x} y={y + 4} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="600" fontFamily={font}>{l}</text>
-          </g>
-        ))}
-        <circle className="pulse" cx="260" cy="260" r="82" fill="#0066CC" />
-        <text x="260" y="256" textAnchor="middle" fill="#fff" fontSize="16" fontWeight="700" fontFamily={font}>Grace AI</text>
-        <text x="260" y="278" textAnchor="middle" fill="#CFE3F7" fontSize="12" fontFamily={font}>agent loop</text>
-      </svg>
-    </div>
-  );
-}
-
-/** Deterministic QR-style pattern. `seed` changes the pattern (the amount demo uses it). */
 export function QrPattern({ seed: s0 = 7 }: { seed?: number }) {
   const n = 25;
   let seed = s0 || 7;

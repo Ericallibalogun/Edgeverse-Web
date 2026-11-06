@@ -170,7 +170,7 @@ export default function Header() {
         </div>
       </header>
 
-      <div ref={drawerRef} className={`drawer${drawer ? " is-open" : ""}`} id="drawer" role="dialog" aria-modal="true"
+      <div ref={drawerRef} className={`drawer${drawer ? " is-open" : ""}`} id="drawer" data-lenis-prevent role="dialog" aria-modal="true"
         aria-label="Site menu" aria-hidden={!drawer} inert={!drawer} onKeyDown={drawerKeys}>
         <div className="drawer-top">
           <Link className="brand" href="/" onClick={closeDrawer}>

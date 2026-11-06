@@ -22,7 +22,7 @@ export const serviceDetail: Record<string, ServiceDetail> = {
       {
         "icon": "network",
         "title": "Networking",
-        "text": "LAN/WAN, SD-WAN, Wi-Fi and structured cabling with Cisco, Meraki and Fortinet."
+        "text": "LAN/WAN, SD-WAN, Wi-Fi and structured cabling with Cisco and Fortinet."
       },
       {
         "icon": "cloud",
@@ -138,7 +138,7 @@ export const serviceDetail: Record<string, ServiceDetail> = {
       {
         "icon": "shield",
         "title": "Managed detection & response",
-        "text": "Threat monitoring with Fortinet, Palo Alto, Check Point and Kaspersky stacks."
+        "text": "Threat monitoring on Fortinet and Cisco security stacks."
       },
       {
         "icon": "audit",
@@ -245,17 +245,17 @@ export const serviceDetail: Record<string, ServiceDetail> = {
       {
         "icon": "box",
         "title": "Hardware supply",
-        "text": "Servers, storage, laptops, desktops and peripherals from Dell, HP, Lenovo and HPE."
+        "text": "Servers, storage, laptops, desktops and peripherals from Dell, HP and Lenovo."
       },
       {
         "icon": "network",
         "title": "Networking & security appliances",
-        "text": "Cisco, Meraki, Fortinet, Palo Alto and Check Point."
+        "text": "Cisco and Fortinet."
       },
       {
         "icon": "code",
         "title": "Software & licensing",
-        "text": "Microsoft, Kaspersky, Veritas and more, with licence optimisation."
+        "text": "Microsoft and more, with licence optimisation."
       },
       {
         "icon": "shield",

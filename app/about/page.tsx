@@ -48,7 +48,7 @@ export default function About() {
               so outcomes are scalable, sustainable and measurable.
             </p>
           </div>
-          <div className="media-frame reveal" style={{ aspectRatio: "4 / 5" }}>
+          <div className="media-frame reveal" data-parallax="" style={{ aspectRatio: "4 / 5" }}>
             <Image src="/img/about-collab.webp" alt="Four colleagues gathered around a laptop, reviewing work together" fill unoptimized sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
           </div>
         </div>

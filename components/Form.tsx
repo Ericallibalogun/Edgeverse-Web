@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import Icon, { Arrow } from "./Icon";
+import { site, waChat } from "@/lib/site";
 
 export type FormKind = "service-request" | "demo" | "consultation" | "training" | "careers" | "contact" | "phlyp-access" | "newsletter";
 
@@ -113,15 +114,26 @@ export function EbslForm({ kind, children, success, className = "", submitLabel,
   }
 
   const busy = state === "sending";
+  const statusId = `${kind}-status`;
   return (
-    <form ref={ref} className={className} onSubmit={submit} noValidate aria-busy={busy}>
+    <form ref={ref} className={inline ? "inline-wrap" : className} onSubmit={submit} noValidate aria-busy={busy}
+      aria-describedby={inline && status ? statusId : undefined}>
       <div className="hp" aria-hidden="true">
         <label>Leave this empty<input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
       </div>
       {inline ? (
         <>
-          {children}
-          <button className="btn" type="submit" disabled={busy}>{busy ? "Sending…" : <>{submitLabel ?? "Subscribe"} <Arrow /></>}</button>
+          <div className={className}>
+            {children}
+            <button className="btn" type="submit" disabled={busy}>{busy ? "Sending…" : <>{submitLabel ?? "Subscribe"} <Arrow /></>}</button>
+          </div>
+          {status && (
+            <p className="inline-status" id={statusId} role="alert">
+              <Icon name="bell" />
+              <span>{status.replace(/ You can also reach us.*$/, "")} Try again shortly, or reach us on{" "}
+                <a href={waChat} target="_blank" rel="noopener noreferrer">WhatsApp</a> or at <a href={`mailto:${site.email}`}>{site.email}</a>.</span>
+            </p>
+          )}
         </>
       ) : (
         <div className="form-grid">
@@ -135,7 +147,6 @@ export function EbslForm({ kind, children, success, className = "", submitLabel,
           </div>
         </div>
       )}
-      {inline && status && <p className="form-status is-error" role="alert">{status}</p>}
     </form>
   );
 }

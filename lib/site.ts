@@ -7,12 +7,12 @@ export const site = {
   short: "EBSL",
   url: "https://edgevervebs.org",
   tagline: "Empowering Businesses Through Strategic Technology",
-  phone: "+234-705-9770-184",
-  phoneHref: "+2347059770184",
+  phone: "+234-807-693-8823",
+  phoneHref: "+2348076938823",
   email: "info@edgevervebs.org",
   address: "EBSL Towers, 17C Saliu Aina Lawal Way, off Mobile Road, Lekki, Lagos, Nigeria",
   mapQuery: "17C Saliu Aina Lawal Way, Lekki, Lagos, Nigeria",
-  whatsappNumber: "2347059770184",
+  whatsappNumber: "2348076938823",
   whatsappPrefill: "Hello EBSL, I have an enquiry about your services.",
   // TODO(EBSL): confirm every handle below before go-live (spec §5.1).
   social: {
@@ -57,12 +57,13 @@ export const partners = [
   { key: "aws", name: "AWS" }, { key: "cisco", name: "Cisco" }, { key: "dell", name: "Dell" }, { key: "fortinet", name: "Fortinet" },
   { key: "hp", name: "HP" }, { key: "ibm", name: "IBM" }, { key: "lenovo", name: "Lenovo" }, { key: "microsoft", name: "Microsoft" },
 ];
-// Logos not yet supplied as image files; rendered as wordmarks until EBSL provides them.
-export const partnerWords = ["Huawei", "Kaspersky", "Palo Alto Networks", "Check Point", "Canon", "Veritas", "HPE", "Motorola", "Meraki"];
 
 export const socials = [
-  { key: "linkedin", name: "LinkedIn" }, { key: "x", name: "X (Twitter)" }, { key: "facebook", name: "Facebook" },
-  { key: "instagram", name: "Instagram" }, { key: "youtube", name: "YouTube" },
+  { key: "linkedin", name: "LinkedIn", blurb: "Company news and hiring" },
+  { key: "x", name: "X", blurb: "Live updates and threads" },
+  { key: "facebook", name: "Facebook", blurb: "Community and events" },
+  { key: "instagram", name: "Instagram", blurb: "Behind the scenes" },
+  { key: "youtube", name: "YouTube", blurb: "Tech explainers and demos" },
 ] as const;
 
 export type NavLink = { label: string; href: string; external?: boolean };

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import Icon, { Arrow } from "@/components/Icon";
+import Globe from "@/components/Globe";
 import Newsletter from "@/components/Newsletter";
 import { AgentRunDemo, PhlypDemo } from "@/components/ProductUI";
-import { d, HeroFrame, HeroTop, LogoWall, PartnersMarquee, PostCard, SectionHead, Split, SvcCards, TrustedBy } from "@/components/ui";
+import { d, HeroFrame, HeroTop, LogoWall, PartnersMarquee, PostCard, SectionHead, Split, SvcCards } from "@/components/ui";
 import { insights } from "@/lib/insights";
 import { processSteps, site, socials } from "@/lib/site";
 
@@ -20,7 +21,8 @@ export default function Home() {
               <Link className="btn btn--outline" href="/consultation">Book a Free Consultation</Link>
             </>} />
           <HeroFrame media={{
-            src: "/img/photos/victoria-island.webp", alt: "Aerial view of Victoria Island, Lagos, and the lagoon", priority: true,
+            src: "/img/photos/hero-boardroom.webp", alt: "Modern boardroom overlooking the lagoon as sunset turns to dusk and the server racks behind the glass light up", priority: true,
+            video: { src: "/video/hero-boardroom.mp4", poster: "/video/hero-boardroom-poster.webp" },
             tag: { title: "EBSL, Lagos", sub: "IT for Nigerian and African enterprise" }, tags: ["Infrastructure", "Security", "AI"],
           }} />
         </div>
@@ -40,8 +42,6 @@ export default function Home() {
         </div>
       </section>
 
-      <TrustedBy />
-
       {/* 4.2 Services */}
       <section className="section" aria-labelledby="svc-h">
         <div className="container split">
@@ -60,7 +60,7 @@ export default function Home() {
           <SectionHead id="wwd-h" title="Why teams pick EBSL."
             lead="Strategy, infrastructure and execution under one roof, from a team that is in Lagos when something breaks." />
           <div className="bento">
-            <figure className="bento-cell bento-photo reveal">
+            <figure className="bento-cell bento-photo reveal" data-parallax="">
               <Image src="/img/photos/ikoyi-lagos.webp" alt="Aerial view of Ikoyi, Lagos, with Victoria Island across the lagoon" fill unoptimized sizes="(max-width: 900px) 100vw, 66vw" style={{ objectFit: "cover" }} />
               <figcaption>
                 <h3>On the ground in Lagos</h3>
@@ -167,20 +167,37 @@ export default function Home() {
       </section>
 
       {/* 4.9 Community */}
-      <section className="section section--dark" aria-labelledby="comm-h">
-        <div className="container">
-          <SectionHead id="comm-h" title="Join our community."
-            aside={<p className="lead reveal" style={{ maxWidth: "44ch" }}>Event photos, product drops, tech explainers and job alerts, wherever you already are.</p>} />
-          <div className="community reveal">
-            <a className="soc-tile soc-tile--wa" href={site.social.whatsappChannel} target="_blank" rel="noopener noreferrer">
-              <Icon name="whatsapp" /><span className="soc-name">Join Our WhatsApp TV Channel</span>
-              <Icon name="arrow-ur" /><span className="sr-only">(opens in new tab)</span>
+      <section className="section section--dark section--grain" aria-labelledby="comm-h">
+        <div className="container comm-split">
+          <div className="comm-copy">
+            <Split className="h2" id="comm-h">From Lagos, across Africa.</Split>
+            <p className="lead reveal" style={d(80)}>Join our community for event photos, product drops, tech explainers and job alerts, wherever you already are.</p>
+          <div className="community reveal" style={d(160)}>
+            <a className="soc-tile soc-tile--whatsapp" href={site.social.whatsappChannel} target="_blank" rel="noopener noreferrer">
+              <span className="soc-chip"><Icon name="whatsapp" /></span>
+              <span className="soc-text">
+                <span className="soc-name">WhatsApp TV Channel</span>
+                <span className="soc-sub">Updates, event photos and job alerts, straight to your phone.</span>
+              </span>
+              <span className="soc-cta">Join the channel <Icon name="arrow-ur" /></span>
+              <span className="sr-only">(opens in new tab)</span>
             </a>
             {socials.map((s) => (
-              <a key={s.key} className="soc-tile" href={site.social[s.key]} target="_blank" rel="noopener noreferrer">
-                <Icon name={s.key} /><span className="soc-name">{s.name}</span><Icon name="arrow-ur" /><span className="sr-only">(opens in new tab)</span>
+              <a key={s.key} className={`soc-tile soc-tile--${s.key}`} href={site.social[s.key]} target="_blank" rel="noopener noreferrer">
+                <span className="soc-chip"><Icon name={s.key} /></span>
+                <span className="soc-text">
+                  <span className="soc-name">{s.name}</span>
+                  <span className="soc-sub">{s.blurb}</span>
+                </span>
+                <Icon name="arrow-ur" />
+                <span className="sr-only">(opens in new tab)</span>
               </a>
             ))}
+          </div>
+          </div>
+          <div className="comm-globe reveal" style={d(120)}>
+            <Globe label="A realistic Earth turned to Africa, showing live day and night, with Lagos highlighted and lines connecting it to Abuja, Accra, Dakar, Cairo, Nairobi, Kigali and Johannesburg" />
+            <p className="globe-hint" aria-hidden="true">Live day and night · drag to rotate</p>
           </div>
         </div>
       </section>

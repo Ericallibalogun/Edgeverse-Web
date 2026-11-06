@@ -1,13 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import Effects from "@/components/Effects";
+import Motion from "@/components/Motion";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
+// General Sans (Fontshare, ITF Free Font License: free for commercial use), self-hosted.
+const generalSans = localFont({
+  src: [
+    { path: "./fonts/GeneralSans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/GeneralSans-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/GeneralSans-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/GeneralSans-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-brand",
+  display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Roboto", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -31,13 +43,18 @@ const ga = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NG" data-scroll-behavior="smooth" className={`js-off ${jakarta.variable}`} suppressHydrationWarning>
+    <html lang="en-NG" data-scroll-behavior="smooth" className={`js-off ${generalSans.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Mark JS before first paint so scroll entrances start hidden without a visible-then-hidden flash */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.remove('js-off')" }} />
+      </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
         <Header />
         <main id="main" tabIndex={-1}>{children}</main>
         <Footer />
         <Effects />
+        <Motion />
         {site.tawkId && (
           <Script id="tawk" strategy="lazyOnload">{`
             var Tawk_API=Tawk_API||{};Tawk_API.customStyle={visibility:{desktop:{position:'bl',xOffset:20,yOffset:20},mobile:{position:'bl',xOffset:10,yOffset:10}}};
