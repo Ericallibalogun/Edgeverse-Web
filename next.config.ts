@@ -15,7 +15,7 @@ const legacy: [string, string][] = [
 
 const nextConfig: NextConfig = {
   // WebP only: the sources are already WebP, and AVIF encoding is slow enough to delay first views.
-  images: { formats: ["image/webp"], minimumCacheTTL: 2678400 },
+  images: { formats: ["image/webp"], minimumCacheTTL: 86400 },
   async redirects() {
     return legacy.map(([source, destination]) => ({ source, destination, permanent: true }));
   },

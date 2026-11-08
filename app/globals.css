@@ -884,3 +884,21 @@ body.no-scroll { overflow: hidden; }
 .who-split .h2 { margin: 0; }
 .who-split .lead { margin-top: 0; }
 @media (max-width: 900px) { .who-split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Clients: sector board on hairlines. Each cell clips its logo so it can rise in on scroll. */
+.clients { padding-top: 0; }
+.clients-head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px clamp(24px, 6vw, 120px); align-items: end; margin-bottom: clamp(32px, 4vw, 56px); }
+.clients-head .h2 { margin: 0; }
+.clients-head .lead { margin: 0; }
+.clients-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px); }
+.clients-group--finance { grid-column: 1 / -1; }
+.clients-label { margin: 0 0 14px; font-size: .875rem; font-weight: 600; letter-spacing: 0; color: var(--muted); }
+.clients-grid { --cols: 3; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.clients-group--finance .clients-grid { --cols: 5; }
+.clients-grid li { display: grid; place-items: center; min-height: clamp(104px, 9vw, 148px); padding: 16px; overflow: hidden; background: #fff; }
+.clients-grid img { width: min(var(--lw), 80%); height: auto; }
+.clients-next a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; color: var(--blue-600); }
+.clients-next svg { width: 16px; height: 16px; }
+.clients-next { background: var(--tint) !important; }
+@media (max-width: 900px) { .clients-head { grid-template-columns: minmax(0, 1fr); } .clients-board { grid-template-columns: minmax(0, 1fr); } .clients-group--finance .clients-grid { --cols: 3; } .clients-next { grid-column: span 3; min-height: 72px !important; } }
+@media (max-width: 480px) { .clients-grid, .clients-group--finance .clients-grid { --cols: 2; } .clients-next { grid-column: span 1; min-height: 0 !important; } .clients-group--public li:last-child, .clients-group--industry li:last-child { grid-column: 1 / -1; } }

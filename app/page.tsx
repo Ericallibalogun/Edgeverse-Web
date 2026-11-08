@@ -6,6 +6,7 @@ import Newsletter from "@/components/Newsletter";
 import { AgentRunDemo, PhlypDemo } from "@/components/ProductUI";
 import { d, HeroFrame, HeroTop, LogoWall, PartnersMarquee, PostCard, SectionHead, Split, SvcCards } from "@/components/ui";
 import { insights } from "@/lib/insights";
+import { clientGroups } from "@/lib/clients";
 import { processSteps, site, socials } from "@/lib/site";
 
 export default function Home() {
@@ -51,6 +52,35 @@ export default function Home() {
             <Link className="btn btn--outline reveal" style={d(160)} href="/services">All services <Arrow /></Link>
           </div>
           <SvcCards />
+        </div>
+      </section>
+
+      {/* 4.2b Clients: a sector board; logos rise into their cells on scroll */}
+      <section className="section clients" aria-labelledby="clients-h">
+        <div className="container">
+          <div className="clients-head">
+            <Split className="h2" id="clients-h">Trusted where downtime isn&apos;t an option.</Split>
+            <p className="lead reveal" style={d(80)}>Banks, development institutions, universities and operators rely on our team to keep critical systems running.</p>
+          </div>
+          <div className="clients-board">
+            {clientGroups.map((g) => (
+              <section className={`clients-group clients-group--${g.key}`} key={g.key} aria-label={g.label}>
+                <h3 className="clients-label">{g.label}</h3>
+                <ul className="clients-grid">
+                  {g.logos.map((l) => (
+                    <li key={l.src}>
+                      <Image src={l.src} alt={l.name} width={l.w} height={l.h} sizes="180px" style={{ ["--lw" as string]: `${l.lw}px` }} />
+                    </li>
+                  ))}
+                  {g.key === "finance" && (
+                    <li className="clients-next">
+                      <Link href="/consultation"><span>Your team next</span> <Arrow /></Link>
+                    </li>
+                  )}
+                </ul>
+              </section>
+            ))}
+          </div>
         </div>
       </section>
 

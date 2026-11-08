@@ -117,6 +117,14 @@ export default function Motion() {
           if (logos.length) tl.from(logos, { y: 24, opacity: 0, duration: 0.6, stagger: 0.12 }, 1.2);
         });
 
+        // Client board: logos rise into their cells one by one, tied to scroll, reversing on the way up.
+        gsap.utils.toArray<HTMLElement>(".clients-grid").forEach((grid) => {
+          gsap.from(grid.querySelectorAll("img, .clients-next a"), {
+            yPercent: 130, opacity: 0, ease: "power2.out", stagger: 0.12,
+            scrollTrigger: { trigger: grid, start: "top 95%", end: "bottom 90%", scrub: 0.8 },
+          });
+        });
+
         // Footer wordmark rises into its frame as the footer arrives.
         gsap.utils.toArray<HTMLElement>(".footer-ebsl span").forEach((word) => {
           gsap.fromTo(word, { yPercent: 45 }, {
