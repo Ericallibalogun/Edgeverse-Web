@@ -57,8 +57,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Motion />
         {site.tawkId && (
           <Script id="tawk" strategy="lazyOnload">{`
-            var Tawk_API=Tawk_API||{};Tawk_API.customStyle={visibility:{desktop:{position:'bl',xOffset:20,yOffset:20},mobile:{position:'bl',xOffset:10,yOffset:10}}};
-            (function(){var s=document.createElement('script');s.async=true;s.src='https://embed.tawk.to/${site.tawkId}';s.charset='UTF-8';s.setAttribute('crossorigin','*');document.body.appendChild(s);})();
+            /* Chat widget is heavy: load it on the first interaction, or 8s after load at the latest. */
+            window.Tawk_API=window.Tawk_API||{};Tawk_API.customStyle={visibility:{desktop:{position:'bl',xOffset:20,yOffset:20},mobile:{position:'bl',xOffset:10,yOffset:10}}};
+            (function(){var done=false,ev=['pointerdown','keydown','scroll','touchstart','mousemove'];
+              function go(){if(done)return;done=true;ev.forEach(function(e){removeEventListener(e,go)});
+                var s=document.createElement('script');s.async=true;s.src='https://embed.tawk.to/${site.tawkId}';s.charset='UTF-8';s.setAttribute('crossorigin','*');document.body.appendChild(s);}
+              ev.forEach(function(e){addEventListener(e,go,{once:true,passive:true})});setTimeout(go,8000);})();
           `}</Script>
         )}
         {ga && (

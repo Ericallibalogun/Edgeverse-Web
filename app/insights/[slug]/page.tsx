@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import { notFound } from "next/navigation";
 import { Arrow } from "@/components/Icon";
 import { CtaBand, PageHero, PostCard } from "@/components/ui";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import Icon, { Arrow } from "./Icon";
 import { site, waChat } from "@/lib/site";

@@ -1,6 +1,6 @@
 import { servicesHero } from "@/lib/generated";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import { notFound } from "next/navigation";
 import Icon, { Arrow } from "@/components/Icon";
 import { CtaBand, d, Faq, FeatureList, PageHero, SectionHead, Split, SvcCards } from "@/components/ui";

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import IntentLink from "./IntentLink";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Icon, { Arrow } from "./Icon";
@@ -13,7 +13,7 @@ function SubLink({ l, onClick }: { l: NavLink; onClick?: () => void }) {
       {l.label} <Icon name="arrow-ur" className="chev" /><span className="sr-only">(opens in new tab)</span>
     </a>
   ) : (
-    <Link href={l.href} onClick={onClick}>{l.label}</Link>
+    <IntentLink href={l.href} onClick={onClick}>{l.label}</IntentLink>
   );
 }
 
@@ -112,9 +112,9 @@ export default function Header() {
         </div>
 
         <div className="container nav-row">
-          <Link className="brand" href="/" aria-label="EBSL home">
+          <IntentLink className="brand" href="/" aria-label="EBSL home">
             <Image src="/img/logo-dark.webp" alt="Edgeverve Business Solutions" width={108} height={40} style={{ width: "auto" }} priority />
-          </Link>
+          </IntentLink>
 
           <nav className="nav" aria-label="Primary">
             <ul className="nav-list">
@@ -123,7 +123,7 @@ export default function Header() {
                 if (!item.children && !item.mega) {
                   return (
                     <li className="nav-item" key={item.label}>
-                      <Link className="nav-link" href={item.href} aria-current={isAct ? "page" : undefined}>{item.label}</Link>
+                      <IntentLink className="nav-link" href={item.href} aria-current={isAct ? "page" : undefined}>{item.label}</IntentLink>
                     </li>
                   );
                 }
@@ -142,14 +142,14 @@ export default function Header() {
                     {item.mega ? (
                       <div className="dropdown dropdown--mega" id={id}>
                         {services.map((s) => (
-                          <Link key={s.slug} href={s.href}>
+                          <IntentLink key={s.slug} href={s.href}>
                             <span>{s.name}<small>{s.short}</small></span>
                             {s.isNew && <span className="badge-new">New</span>}
-                          </Link>
+                          </IntentLink>
                         ))}
-                        <Link className="mega-foot" href="/services">
+                        <IntentLink className="mega-foot" href="/services">
                           <span><strong>All services</strong>: see how they fit together</span><Icon name="arrow" />
-                        </Link>
+                        </IntentLink>
                       </div>
                     ) : (
                       <div className="dropdown" id={id}>
@@ -163,7 +163,7 @@ export default function Header() {
           </nav>
 
           <div className="header-cta">
-            <Link className="btn btn--sm" href="/service-request">Get Started <Arrow /></Link>
+            <IntentLink className="btn btn--sm" href="/service-request">Get Started <Arrow /></IntentLink>
             <button ref={toggleRef} className="menu-toggle" type="button" aria-expanded={drawer} aria-controls="drawer"
               aria-label="Open menu" onClick={() => setDrawer(true)}><span /></button>
           </div>
@@ -173,15 +173,15 @@ export default function Header() {
       <div ref={drawerRef} className={`drawer${drawer ? " is-open" : ""}`} id="drawer" data-lenis-prevent role="dialog" aria-modal="true"
         aria-label="Site menu" aria-hidden={!drawer} inert={!drawer} onKeyDown={drawerKeys}>
         <div className="drawer-top">
-          <Link className="brand" href="/" onClick={closeDrawer}>
+          <IntentLink className="brand" href="/" onClick={closeDrawer}>
             <Image src="/img/logo-light.webp" alt="EBSL home" width={108} height={40} style={{ width: "auto" }} />
-          </Link>
+          </IntentLink>
           <button className="drawer-close" type="button" aria-label="Close menu" onClick={closeDrawer}><Icon name="x" /></button>
         </div>
         <ul className="drawer-list">
           {nav.map((item) => {
             if (!item.children && !item.mega) {
-              return <li key={item.label}><Link href={item.href} onClick={closeDrawer}>{item.label}</Link></li>;
+              return <li key={item.label}><IntentLink href={item.href} onClick={closeDrawer}>{item.label}</IntentLink></li>;
             }
             const links: NavLink[] = item.mega
               ? [...services.map((s) => ({ label: s.name, href: s.href })), { label: "All services", href: "/services" }]
@@ -202,7 +202,7 @@ export default function Header() {
           })}
         </ul>
         <div className="drawer-foot">
-          <Link className="btn btn--block" href="/service-request" onClick={closeDrawer}>Get Started <Arrow /></Link>
+          <IntentLink className="btn btn--block" href="/service-request" onClick={closeDrawer}>Get Started <Arrow /></IntentLink>
           <a className="btn btn--wa btn--block" href={waChat} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> Chat on WhatsApp</a>
           <div className="social"><SocialLinks /></div>
         </div>

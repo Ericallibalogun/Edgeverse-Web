@@ -1,7 +1,7 @@
 import { servicesHero } from "@/lib/generated";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import Icon from "@/components/Icon";
 import { CtaBand, d } from "@/components/ui";
 import { services, site } from "@/lib/site";

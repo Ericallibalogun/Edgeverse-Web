@@ -236,7 +236,7 @@ body.no-scroll { overflow: hidden; }
 
 .hero-video { position: absolute; inset: 0; }
 .hero-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity var(--fade, 1.5s) linear; }
-.hero-video video.is-front { opacity: 1; z-index: 1; }
+.hero-video video.is-front.is-started { opacity: 1; z-index: 1; }
 .hero-video-btn { position: absolute; right: 16px; bottom: 16px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(0, 26, 51, .55); color: #fff; transition: background var(--t-fast); }
 .hero-video-btn:hover { background: rgba(0, 26, 51, .8); }
 .hero-video-btn svg { width: 16px; height: 16px; }
@@ -570,7 +570,10 @@ body.no-scroll { overflow: hidden; }
 .globe-label--lagos { font-size: .8125rem; }
 .globe-label--lagos b { color: var(--yellow, #FFB81C); }
 .globe canvas { display: block; width: 100% !important; height: 100% !important; }
-.globe--failed { display: none; }
+.globe-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; transition: opacity .9s var(--ease-out); }
+.globe canvas { position: relative; }
+.globe.is-ready .globe-poster { opacity: 0; }
+.globe--failed canvas { display: none; }
 .globe-hint { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); margin: 0; color: var(--sky); font-size: var(--fs-small); opacity: .7; pointer-events: none; }
 @media (max-width: 900px) { .comm-split { grid-template-columns: minmax(0, 1fr); } .comm-globe { order: -1; } .globe { max-width: 420px; } .globe-hint { display: none; } }
 /* Community: each platform in its real colour. The brand colour floods the tile from its
@@ -834,10 +837,10 @@ body.no-scroll { overflow: hidden; }
   .reveal.is-in { animation: rise-in 700ms var(--ease-out) var(--d, 0ms) backwards; }
   /* Hero: CSS-only, plays on load without waiting for script */
   .intro { animation: rise-in 560ms var(--ease-out) var(--d, 0ms) backwards; }
-  .hero-frame.intro { animation: settle-in 600ms var(--ease-out) var(--d, 200ms) backwards; }
+  .hero-frame.intro, .svc-stage.intro { animation: settle-in 600ms var(--ease-out) backwards; } /* transform only: the hero picture paints at once */
 }
 @keyframes rise-in { from { opacity: 0; transform: translateY(24px); } }
-@keyframes settle-in { from { opacity: 0; transform: scale(.98); } }
+@keyframes settle-in { from { transform: scale(.98); } }
 
 /* Hover movement only where hover is real (no sticky hover after taps) */
 @media (hover: hover) and (pointer: fine) {

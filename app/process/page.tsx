@@ -1,6 +1,6 @@
 import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import Icon from "@/components/Icon";
 import { CtaBand, d, PageHero, Serif } from "@/components/ui";
 import { processSteps } from "@/lib/site";

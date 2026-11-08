@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import Icon, { Arrow } from "@/components/Icon";
 import Globe from "@/components/Globe";
 import Newsletter from "@/components/Newsletter";
@@ -61,7 +61,7 @@ export default function Home() {
             lead="Strategy, infrastructure and execution under one roof, from a team that is in Lagos when something breaks." />
           <div className="bento">
             <figure className="bento-cell bento-photo reveal" data-parallax="">
-              <Image src="/img/photos/ikoyi-lagos.webp" alt="Aerial view of Ikoyi, Lagos, with Victoria Island across the lagoon" fill unoptimized sizes="(max-width: 900px) 100vw, 66vw" style={{ objectFit: "cover" }} />
+              <Image src="/img/photos/ikoyi-lagos.webp" alt="Aerial view of Ikoyi, Lagos, with Victoria Island across the lagoon" fill sizes="(max-width: 900px) 100vw, 66vw" style={{ objectFit: "cover" }} />
               <figcaption>
                 <h3>On the ground in Lagos</h3>
                 <p>Engineers based at EBSL Towers, Lekki, for on-site support across the city.</p>

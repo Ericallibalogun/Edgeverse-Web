@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { afterLoad, liteMode, lowPower, slowNet } from "@/lib/perf";
 
 /** Lagos and the African cities the arcs reach. [lat, lon] */
 const LAGOS: [number, number] = [6.52, 3.38];
@@ -33,8 +34,12 @@ function subsolar(d = new Date()) {
  * where it really is for the visitor's current time), city lights on the night side, sun
  * glint on the oceans, terrain relief, a drifting cloud layer with shadows and a thin
  * atmosphere. Lagos glows and arcs draw out to cities across the continent.
- * Three.js and the textures load only when the section nears the viewport, rendering
- * pauses off-screen, drag to rotate. Reduced motion: drawn once, nothing drifts.
+ * Performance: a still render (poster) paints immediately. Three.js and the textures start
+ * downloading once the page has loaded and is idle; GPU work starts only when the section
+ * nears the viewport, then the live globe fades in over the poster. Phones, slow connections
+ * and low-power devices get 2K textures and a lighter render; data-saver keeps the poster.
+ * Rendering pauses off-screen and drops to 30fps if frames run long. Drag to rotate.
+ * Reduced motion: drawn once, nothing drifts.
  */
 export default function Globe({ label }: { label: string }) {
   const host = useRef<HTMLDivElement>(null);
@@ -43,32 +48,46 @@ export default function Globe({ label }: { label: string }) {
 
   useEffect(() => {
     const el = host.current;
-    if (!el) return;
+    if (!el || liteMode()) return; // data-saver / 2G: the poster is the globe
     let cleanup: (() => void) | undefined;
-    let started = false, gone = false;
+    let gone = false, inView = false, mounted = false;
+    const light = slowNet() || lowPower() || window.innerWidth < 700;
+    const dir = light ? `${TEX}2k/` : TEX;
 
-    const start = async () => {
-      if (started) return;
-      started = true;
+    let assets: Promise<[typeof import("three"), InstanceType<typeof import("three").Texture>[]]> | undefined;
+    const load = () => (assets ??= (async () => {
+      const THREE = await import("three");
+      const loader = new THREE.TextureLoader();
+      const tex = await Promise.all(["day", "night", "water", "bump", "clouds"].map((n) => loader.loadAsync(`${dir}${n}.webp`)));
+      return [THREE, tex] as [typeof THREE, typeof tex];
+    })());
+
+    const tryMount = async () => {
+      if (mounted || !inView) return;
+      mounted = true;
       try {
-        const THREE = await import("three");
-        const loader = new THREE.TextureLoader();
-        const tex = await Promise.all(["day", "night", "water", "bump", "clouds"].map((n) => loader.loadAsync(`${TEX}${n}.webp`)));
-        if (gone) { tex.forEach((t) => t.dispose()); return; }
-        cleanup = mount(THREE, el, tex);
-        setReady(true);
+        const [THREE, tex] = await load();
+        if (gone) return;
+        cleanup = mount(THREE, el, tex, light);
+        requestAnimationFrame(() => setReady(true));
       } catch {
         setFailed(true);
       }
     };
 
-    const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { near.disconnect(); start(); } }, { rootMargin: "400px 0px" });
+    // Capable devices download early (after load, when idle) so the globe is ready on arrival;
+    // light devices only fetch as the section approaches. Mounting always waits for the viewport.
+    if (!light) afterLoad(() => { if (!gone) load().catch(() => {}); }, 4000);
+    const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { inView = true; near.disconnect(); tryMount(); } }, { rootMargin: light ? "1000px 0px" : "600px 0px" });
     near.observe(el);
     return () => { gone = true; near.disconnect(); cleanup?.(); };
   }, []);
 
   return (
-    <div className={`globe${failed ? " globe--failed" : ""}${ready ? " is-ready" : ""}`} ref={host} role="img" aria-label={label} />
+    <div className={`globe${failed ? " globe--failed" : ""}${ready ? " is-ready" : ""}`} ref={host} role="img" aria-label={label}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="globe-poster" src={`${TEX}poster.webp`} alt="" aria-hidden="true" width={640} height={640} loading="lazy" decoding="async" />
+    </div>
   );
 }
 
@@ -134,12 +153,14 @@ void main() {
   gl_FragColor = vec4(vec3(0.35, 0.65, 1.0), i * (0.15 + 0.85 * lit));
 }`;
 
-function mount(THREE: typeof import("three"), el: HTMLDivElement, tex: InstanceType<typeof import("three").Texture>[]) {
+function mount(THREE: typeof import("three"), el: HTMLDivElement, tex: InstanceType<typeof import("three").Texture>[], light: boolean) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const R = 1;
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ antialias: !light, alpha: true, premultipliedAlpha: false, powerPreference: light ? "low-power" : "default" });
+  let dpr = Math.min(window.devicePixelRatio, light ? 1.5 : 2);
+  renderer.setPixelRatio(dpr);
+  const SEGS = light ? 72 : 128;
   el.appendChild(renderer.domElement);
 
   const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
@@ -166,14 +187,14 @@ function mount(THREE: typeof import("three"), el: HTMLDivElement, tex: InstanceT
   // Earth surface.
   const earthU = {
     tDay: { value: tDay }, tNight: { value: tNight }, tWater: { value: tWater }, tBump: { value: tBump }, tClouds: { value: tClouds },
-    uSun: { value: sun }, uCam: { value: new THREE.Vector3() }, uTexel: { value: new THREE.Vector2(1 / 2048, 1 / 1024) }, uCloudU: { value: 0 },
+    uSun: { value: sun }, uCam: { value: new THREE.Vector3() }, uTexel: { value: new THREE.Vector2(1 / (tBump.image as { width: number }).width, 1 / (tBump.image as { height: number }).height) }, uCloudU: { value: 0 },
   };
-  const earth = new THREE.Mesh(new THREE.SphereGeometry(R, 128, 128), new THREE.ShaderMaterial({ uniforms: earthU, vertexShader: EARTH_VS, fragmentShader: EARTH_FS }));
+  const earth = new THREE.Mesh(new THREE.SphereGeometry(R, SEGS, SEGS), new THREE.ShaderMaterial({ uniforms: earthU, vertexShader: EARTH_VS, fragmentShader: EARTH_FS }));
   globe.add(earth);
 
   // Clouds: a slightly larger shell that drifts on its own.
   const cloudU = { tClouds: { value: tClouds }, uSun: { value: sun } };
-  const clouds = new THREE.Mesh(new THREE.SphereGeometry(R * 1.008, 96, 96),
+  const clouds = new THREE.Mesh(new THREE.SphereGeometry(R * 1.008, SEGS * 0.75, SEGS * 0.75),
     new THREE.ShaderMaterial({ uniforms: cloudU, vertexShader: EARTH_VS, fragmentShader: CLOUD_FS, transparent: true, depthWrite: false }));
   globe.add(clouds);
 
@@ -286,17 +307,24 @@ function mount(THREE: typeof import("three"), el: HTMLDivElement, tex: InstanceT
   }
 
   // Animate only while visible.
+  // Time-based motion (identical at 30, 60 or 120 Hz). Light devices draw at ~30fps; any device
+  // whose frames run long drops resolution, then frame rate, rather than stuttering.
   let raf = 0, visible = false, t0 = performance.now(), last = t0;
+  let minGap = light ? 1000 / 31 : 0, n = 0, gapSum = 0;
+  const ease = (k: number, dt: number) => 1 - Math.pow(1 - k, dt * 60);
   const loop = (now: number) => {
-    const t = (now - t0) / 1000, dt = Math.min(0.1, (now - last) / 1000);
+    raf = requestAnimationFrame(loop);
+    const gap = now - last;
+    if (gap < minGap) return;
     last = now;
+    const t = (now - t0) / 1000, dt = Math.min(0.1, gap / 1000);
     clouds.rotation.y += dt * 0.008; // clouds drift east, slowly
     if (!dragging) {
       // Inertia from a drag, then ease back to a gentle sway centred on Africa (Lagos stays in view).
-      vel *= 0.92; drift += vel;
+      vel *= Math.pow(0.92, dt * 60); drift += vel * dt * 60;
       const sway = Math.sin(t * 0.22) * 0.32;
-      drift += (sway - drift) * 0.015;
-      tilt += (0.2 - tilt) * 0.02;
+      drift += (sway - drift) * ease(0.015, dt);
+      tilt += (0.2 - tilt) * ease(0.02, dt);
     }
     arcs.forEach(({ geo, end, delay }) => {
       const p = Math.min(1, Math.max(0, (t - delay) / 1.4));
@@ -307,11 +335,21 @@ function mount(THREE: typeof import("three"), el: HTMLDivElement, tex: InstanceT
     ring.scale.setScalar(s);
     (ring.material as InstanceType<typeof THREE.MeshBasicMaterial>).opacity = 1 - ((t * 0.8) % 1);
     render();
-    raf = requestAnimationFrame(loop);
+    // Every ~2s of frames, check the pace: under ~40fps, step quality down once per check.
+    if (gap < 200) { n++; gapSum += gap; }
+    if (n === 90) {
+      const avg = gapSum / n;
+      n = 0; gapSum = 0;
+      if (avg > 25 + minGap * 0.2) {
+        if (dpr > 1) { dpr = 1; renderer.setPixelRatio(1); resize(); }
+        else if (!minGap) minGap = 1000 / 31;
+      }
+    }
   };
   const vis = new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     cancelAnimationFrame(raf);
+    last = performance.now();
     if (visible && !reduce) raf = requestAnimationFrame(loop);
   });
   vis.observe(el);

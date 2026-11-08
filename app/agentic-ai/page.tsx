@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
 import { AgentRunDemo } from "@/components/ProductUI";
 import { CtaBand, d, FeatureList, PageHero, SectionHead, Serif, Split } from "@/components/ui";

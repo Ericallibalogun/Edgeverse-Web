@@ -78,7 +78,7 @@ export const nav: NavItem[] = [
   { label: "Services", href: "/services", section: "/services", mega: true },
   { label: "Media", href: "/insights", section: "/media", children: [
     { label: "Insights & Case Studies", href: "/insights" }, { label: "Blog & News", href: "/blog" },
-    { label: "Gallery / Photo & Video", href: "/gallery" }, { label: "WhatsApp TV Channel", href: site.social.whatsappChannel, external: true }] },
+    { label: "WhatsApp TV Channel", href: site.social.whatsappChannel, external: true }] },
   { label: "Careers", href: "/careers", section: "/careers", children: [
     { label: "Open Positions", href: "/careers#positions" }, { label: "Internship & Graduate Programs", href: "/careers#internship" },
     { label: "Submit Your CV", href: "/careers#apply" }] },

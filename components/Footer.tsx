@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import IntentLink from "./IntentLink";
 import Icon from "./Icon";
 import { SocialLinks } from "./Header";
 import { WaChannelButton } from "./ui";
@@ -25,20 +25,20 @@ export default function Footer() {
             <div>
               <h3>Quick links</h3>
               <ul>
-                <li><Link href="/">Home</Link></li>
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/services">Services</Link></li>
-                <li><Link href="/insights">Insights</Link></li>
-                <li><Link href="/careers">Careers</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-                <li><Link href="/contact?subject=Partnership">Partner With Us</Link></li>
+                <li><IntentLink href="/">Home</IntentLink></li>
+                <li><IntentLink href="/about">About</IntentLink></li>
+                <li><IntentLink href="/services">Services</IntentLink></li>
+                <li><IntentLink href="/insights">Insights</IntentLink></li>
+                <li><IntentLink href="/careers">Careers</IntentLink></li>
+                <li><IntentLink href="/contact">Contact</IntentLink></li>
+                <li><IntentLink href="/contact?subject=Partnership">Partner With Us</IntentLink></li>
               </ul>
             </div>
             <div>
               <h3>Services</h3>
               <ul>
                 {footerServices.map((s) => (
-                  <li key={s.slug}><Link href={s.href}>{s.name.split(" (")[0].replace(" & Advisory", "").replace(" Solutions", "")}</Link></li>
+                  <li key={s.slug}><IntentLink href={s.href}>{s.name.split(" (")[0].replace(" & Advisory", "").replace(" Solutions", "")}</IntentLink></li>
                 ))}
               </ul>
             </div>
@@ -58,9 +58,9 @@ export default function Footer() {
         <div className="footer-bottom container">
           <span>© {new Date().getFullYear()} EBSL | Edgeverve Business Solutions Ltd. All rights reserved.</span>
           <nav aria-label="Legal">
-            <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/terms">Terms of Service</Link>
-            <Link href="/credits">Photo credits</Link>
+            <IntentLink href="/privacy-policy">Privacy Policy</IntentLink>
+            <IntentLink href="/terms">Terms of Service</IntentLink>
+            <IntentLink href="/credits">Photo credits</IntentLink>
             <a href="/sitemap.xml">Sitemap</a>
           </nav>
         </div>

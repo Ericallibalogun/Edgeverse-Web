@@ -1,7 +1,7 @@
 import { aboutHero } from "@/lib/generated";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
 import Newsletter from "@/components/Newsletter";
 import { CtaBand, d, LogoWall, PageHero, SectionHead, Serif, Split, WaChannelButton } from "@/components/ui";
@@ -122,8 +122,8 @@ export default function About() {
         </div>
       </section>
 
-      <Newsletter />
       <CtaBand />
+      <Newsletter />
     </>
   );
 }

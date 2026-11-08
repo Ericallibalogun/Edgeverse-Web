@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/IntentLink";
 import { Arrow } from "@/components/Icon";
 import { HeroBg } from "@/components/ui";
 
