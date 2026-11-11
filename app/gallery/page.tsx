@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Filter from "@/components/Filter";
-import { PageHero, Serif, WaChannelButton } from "@/components/ui";
+import { PageHero, Serif, WaChatButton } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default function Gallery() {
       <PageHero media={{ ...photo("lekki-bridge-night"), size: "band", tag: { title: "Inside EBSL", sub: "Events, projects and training" } }} title={<>Inside <Serif>EBSL.</Serif></>} eyebrow="Gallery" crumbs={[{ label: "Media", href: "/insights" }, { label: "Gallery" }]}
         lead="Events, projects, training and the team. Follow along for the latest photos and video."
         actions={<>
-          <WaChannelButton />
+          <WaChatButton />
           <a className="btn btn--outline-light" href={site.social.instagram} target="_blank" rel="noopener noreferrer"><Icon name="instagram" /> Instagram</a>
           <a className="btn btn--outline-light" href={site.social.linkedin} target="_blank" rel="noopener noreferrer"><Icon name="linkedin" /> LinkedIn</a>
         </>} />

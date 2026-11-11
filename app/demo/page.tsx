@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/demo" },
 };
 
-const products = ["Agentic AI", "Phlyp Pay", "NerveHUB Platform", "Software Development", "Cybersecurity", "Infrastructure Solutions", "IT Consulting", "Managed Services", "Other"];
+const products = ["Agentic AI", "Fortis", "Phlyp Pay", "NerveHUB Platform", "Software Development", "Cybersecurity", "Infrastructure Solutions", "IT Consulting", "Managed Services", "Other"];
 const today = new Date().toISOString().slice(0, 10);
 
 export default function Demo() {

@@ -1,11 +1,9 @@
 import { aboutHero } from "@/lib/generated";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "@/components/IntentLink";
 import Icon, { Arrow, type IconName } from "@/components/Icon";
 import Newsletter from "@/components/Newsletter";
-import { CtaBand, d, LogoWall, PageHero, SectionHead, Serif, Split, WaChannelButton } from "@/components/ui";
-import { team } from "@/lib/people";
+import { CtaBand, d, LogoWall, PageHero, Serif, Split, WaChatButton } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "About EBSL: Who We Are, Mission, Team & Partners",
@@ -87,35 +85,14 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section section--tint" id="team" aria-labelledby="team-h">
-        <div className="container">
-          <SectionHead eyebrow="Our team" id="team-h" title="The people behind the work."
-            aside={<Link className="btn btn--outline reveal" href="/careers">Join the team <Arrow /></Link>} />
-          {team.length ? (
-            <div className="grid grid-4">
-              {team.map((m, i) => (
-                <article className="card team-card reveal" style={d(i * 80)} key={m.name}>
-                  {m.photo ? <Image src={m.photo} alt={m.name} width={400} height={500} /> : <div className="avatar" aria-hidden="true">{m.name.split(" ").map((p) => p[0]).join("")}</div>}
-                  <div className="body"><h3>{m.name}</h3><p>{m.role}</p></div>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <p className="lead reveal">
-              Our consultants, engineers and trainers hold certifications across Cisco, Microsoft, AWS, Fortinet, ITIL and more. Leadership profiles are coming soon.
-            </p>
-          )}
-        </div>
-      </section>
-
-      <section className="section" id="partners" aria-labelledby="pt-h">
+      <section className="section" id="partners" aria-labelledby="pt-h" style={{ paddingTop: 0 }}>
         <div className="container split">
           <div>
             <Split className="h2" id="pt-h">Certified with the platforms you run.</Split>
             <p className="lead reveal">Authorised partnerships mean genuine products, manufacturer warranties and engineers trained on the technology they deploy.</p>
             <div className="hero-actions mt-m reveal">
               <Link className="btn" href="/contact?subject=Partnership">Partner With Us <Arrow /></Link>
-              <WaChannelButton />
+              <WaChatButton />
             </div>
           </div>
           <div className="reveal"><LogoWall /></div>

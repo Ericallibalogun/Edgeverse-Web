@@ -11,6 +11,12 @@ import type { ComponentProps } from "react";
  */
 export default function IntentLink({ href, onPointerEnter, onFocus, onTouchStart, ...rest }: ComponentProps<typeof Link> & { href: string }) {
   const router = useRouter();
+  // External sites (e.g. Fortis) open in a new tab and are never prefetched.
+  if (/^https?:\/\//.test(href)) {
+    const { prefetch: _p, replace: _r, scroll: _s, ...a } = rest as ComponentProps<typeof Link>;
+    void _p; void _r; void _s;
+    return <a href={href} target="_blank" rel="noopener noreferrer" {...(a as ComponentProps<"a">)} />;
+  }
   const warm = () => router.prefetch(href);
   return (
     <Link href={href} prefetch={false} {...rest}

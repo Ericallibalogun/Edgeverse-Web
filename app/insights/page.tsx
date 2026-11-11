@@ -2,7 +2,7 @@ import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Filter from "@/components/Filter";
 import Newsletter from "@/components/Newsletter";
-import { PageHero, PostCard, Serif, WaChannelButton } from "@/components/ui";
+import { PageHero, PostCard, Serif, WaChatButton } from "@/components/ui";
 import { insights } from "@/lib/insights";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function Insights() {
   return (
     <>
       <PageHero media={{ ...photo("optic-fibre"), size: "band", tag: { title: "Insights", sub: "Case studies, notes and news" } }} title={<>Insights &amp; <Serif>case studies.</Serif></>} eyebrow="Media" crumbs={[{ label: "Insights" }]}
-        lead="What we're learning from the field: practical notes on infrastructure, security, service management and AI." actions={<WaChannelButton />} />
+        lead="What we're learning from the field: practical notes on infrastructure, security, service management and AI." actions={<WaChatButton />} />
       <section className="section">
         <div className="container">
           <Filter label="Filter insights" options={["Case study", "Insight", "News"]}>

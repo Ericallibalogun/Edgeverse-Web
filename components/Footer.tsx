@@ -2,7 +2,7 @@ import Image from "next/image";
 import IntentLink from "./IntentLink";
 import Icon from "./Icon";
 import { SocialLinks } from "./Header";
-import { WaChannelButton } from "./ui";
+import { WaChatButton } from "./ui";
 import { site, svc, waChat } from "@/lib/site";
 
 
@@ -20,7 +20,7 @@ export default function Footer() {
                 <strong style={{ color: "#fff" }}>{site.tagline}.</strong> End-to-end IT infrastructure, consulting, cybersecurity,
                 AI and training, built for the modern Nigerian and African enterprise.
               </p>
-              <WaChannelButton className="btn--sm" />
+              <WaChatButton className="btn--sm" />
             </div>
             <div>
               <h3>Quick links</h3>
@@ -49,7 +49,7 @@ export default function Footer() {
                 <li><Icon name="phone" /><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
                 <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
               </ul>
-              <div className="social"><SocialLinks channel /></div>
+              <div className="social"><SocialLinks /></div>
             </div>
           </div>
           <div className="footer-ebsl" aria-hidden="true"><span>EBSL</span></div>

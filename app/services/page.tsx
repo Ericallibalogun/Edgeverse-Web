@@ -10,7 +10,7 @@ const stat = (i: number) => site.stats[i];
 
 export const metadata: Metadata = {
   title: "IT Services: Infrastructure, Consulting, Cybersecurity, AI & More",
-  description: "Nine practices, one accountable partner: infrastructure, consulting, cybersecurity, managed services, procurement, training, software, Agentic AI and Phlyp Pay.",
+  description: "Ten practices, one accountable partner: infrastructure, consulting, cybersecurity, Fortis security testing, managed services, procurement, training, software, Agentic AI and Phlyp Pay.",
   alternates: { canonical: "/services" },
 };
 
@@ -21,7 +21,7 @@ export default function Services() {
       <section className="hero svc-hero" aria-labelledby="svc-hero-h">
         <div className="container">
           <h1 className="hero-title intro" id="svc-hero-h">Every capability your technology needs.</h1>
-          <p className="lead intro" style={d(80)}>Nine practices, one accountable partner. Pick a starting point, or tell us the problem and we&apos;ll assemble the team.</p>
+          <p className="lead intro" style={d(80)}>Ten practices, one accountable partner. Pick a starting point, or tell us the problem and we&apos;ll assemble the team.</p>
           <div className="svc-stage intro" style={d(200)}>
             <figure className="svc-photo" data-parallax="">
               <Image src={servicesHero.src} alt={servicesHero.alt} fill priority sizes="(max-width: 900px) 100vw, 80vw" style={{ objectFit: "cover" }} />

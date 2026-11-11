@@ -7,7 +7,7 @@ import { AgentRunDemo, PhlypDemo } from "@/components/ProductUI";
 import { d, HeroFrame, HeroTop, LogoWall, PartnersMarquee, PostCard, SectionHead, Split, SvcCards } from "@/components/ui";
 import { insights } from "@/lib/insights";
 import { clientGroups } from "@/lib/clients";
-import { processSteps, site, socials } from "@/lib/site";
+import { processSteps, site, socials, waChat } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -203,13 +203,13 @@ export default function Home() {
             <Split className="h2" id="comm-h">From Lagos, across Africa.</Split>
             <p className="lead reveal" style={d(80)}>Join our community for event photos, product drops, tech explainers and job alerts, wherever you already are.</p>
           <div className="community reveal" style={d(160)}>
-            <a className="soc-tile soc-tile--whatsapp" href={site.social.whatsappChannel} target="_blank" rel="noopener noreferrer">
+            <a className="soc-tile soc-tile--whatsapp" href={waChat} target="_blank" rel="noopener noreferrer">
               <span className="soc-chip"><Icon name="whatsapp" /></span>
               <span className="soc-text">
-                <span className="soc-name">WhatsApp TV Channel</span>
-                <span className="soc-sub">Updates, event photos and job alerts, straight to your phone.</span>
+                <span className="soc-name">Chat with us on WhatsApp</span>
+                <span className="soc-sub">Questions, quotes and support, straight from our Lagos team.</span>
               </span>
-              <span className="soc-cta">Join the channel <Icon name="arrow-ur" /></span>
+              <span className="soc-cta">Start a chat <Icon name="arrow-ur" /></span>
               <span className="sr-only">(opens in new tab)</span>
             </a>
             {socials.map((s) => (

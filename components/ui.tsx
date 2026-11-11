@@ -3,7 +3,7 @@ import Link from "@/components/IntentLink";
 import type { CSSProperties, ReactNode } from "react";
 import HeroVideo from "./HeroVideo";
 import Icon, { Arrow } from "./Icon";
-import { partners, services, site, svc, type Service } from "@/lib/site";
+import { partners, services, site, svc, waChat, type Service } from "@/lib/site";
 import type { Insight } from "@/lib/insights";
 
 /** Section or page headline. One face, one colour; it fades in with its section. */
@@ -128,9 +128,9 @@ export function SectionHead({ title, id, aside, lead }: { eyebrow?: ReactNode; t
   );
 }
 
-export const WaChannelButton = ({ className = "" }: { className?: string }) => (
-  <a className={`btn btn--wa ${className}`} href={site.social.whatsappChannel} target="_blank" rel="noopener noreferrer">
-    <Icon name="whatsapp" /> Join Our WhatsApp TV Channel<span className="sr-only"> (opens in new tab)</span>
+export const WaChatButton = ({ className = "" }: { className?: string }) => (
+  <a className={`btn btn--wa ${className}`} href={waChat} target="_blank" rel="noopener noreferrer">
+    <Icon name="whatsapp" /> Chat with us on WhatsApp<span className="sr-only"> (opens in new tab)</span>
   </a>
 );
 

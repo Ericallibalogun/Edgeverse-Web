@@ -14,21 +14,16 @@ export const site = {
   mapQuery: "17C Saliu Aina Lawal Way, Lekki, Lagos, Nigeria",
   whatsappNumber: "2348076938823",
   whatsappPrefill: "Hello EBSL, I have an enquiry about your services.",
-  // TODO(EBSL): confirm every handle below before go-live (spec §5.1).
   social: {
-    linkedin: "https://www.linkedin.com/company/edgevervebs",
-    x: "https://x.com/edgevervebs",
-    facebook: "https://www.facebook.com/edgevervebs",
-    instagram: "https://www.instagram.com/edgevervebs",
-    youtube: "https://www.youtube.com/@edgevervebs",
-    whatsappChannel: "https://whatsapp.com/channel/REPLACE_WITH_EBSL_CHANNEL_ID",
+    linkedin: "https://www.linkedin.com/company/edgevervebs_ltd/",
+    x: "https://x.com/ebsl0001",
+    instagram: "https://www.instagram.com/edgevervebs_ltd/",
   },
-  // TODO(EBSL): replace with verified figures (spec §11).
   stats: [
-    { value: 250, suffix: "+", label: "Clients served" },
-    { value: 500, suffix: "+", label: "IT projects delivered" },
-    { value: 75, suffix: "+", label: "Certified experts" },
-    { value: 10, suffix: "+", label: "Years of excellence" },
+    { value: 15, suffix: "+", label: "Clients served" },
+    { value: 75, suffix: "+", label: "IT projects delivered" },
+    { value: 45, suffix: "+", label: "Certified experts" },
+    { value: 8, suffix: "+", label: "Years of excellence" },
   ],
   tawkId: "68c6397e312e381925a1fcd4/1jc7st2i1",
 };
@@ -48,6 +43,7 @@ export const services: Service[] = [
   { slug: "training", name: "Training & Learning Academy", short: "Certification tracks and capacity building for technical teams.", icon: "grad", href: "/services/training" },
   { slug: "software", name: "Software Development", short: "Custom software, ERP, CRM and e-commerce portals.", icon: "code", href: "/services/software" },
   { slug: "agentic-ai", name: "Agentic AI (Grace AI)", short: "Autonomous AI agents that run multi-step work end to end.", icon: "bot", isNew: true, href: "/agentic-ai" },
+  { slug: "fortis", name: "Fortis Security Testing", short: "Security checks on every release for fintechs, with evidence for CBN, NDPA and PCI DSS reviews.", icon: "shield", isNew: true, href: "https://fortis-website-three.vercel.app/" },
   { slug: "phlyp-pay", name: "Phlyp Pay QR Payments", short: "Scan-to-pay business payments. No POS terminal needed.", icon: "qr", isNew: true, href: "/phlyp-pay" },
 ];
 export const svc = (slug: string) => services.find((s) => s.slug === slug)!;
@@ -61,9 +57,7 @@ export const partners = [
 export const socials = [
   { key: "linkedin", name: "LinkedIn", blurb: "Company news and hiring" },
   { key: "x", name: "X", blurb: "Live updates and threads" },
-  { key: "facebook", name: "Facebook", blurb: "Community and events" },
   { key: "instagram", name: "Instagram", blurb: "Behind the scenes" },
-  { key: "youtube", name: "YouTube", blurb: "Tech explainers and demos" },
 ] as const;
 
 export type NavLink = { label: string; href: string; external?: boolean };
@@ -73,12 +67,11 @@ export const nav: NavItem[] = [
   { label: "Home", href: "/", section: "/" },
   { label: "About", href: "/about", section: "/about", children: [
     { label: "Who We Are", href: "/about#who-we-are" }, { label: "Our Mission & Vision", href: "/about#mission" },
-    { label: "Our DNA | Legacy Walk", href: "/about#dna" }, { label: "Our Team", href: "/about#team" },
+    { label: "Our DNA | Legacy Walk", href: "/about#dna" },
     { label: "Our Partners & OEM Brands", href: "/about#partners" }] },
   { label: "Services", href: "/services", section: "/services", mega: true },
   { label: "Media", href: "/insights", section: "/media", children: [
-    { label: "Insights & Case Studies", href: "/insights" }, { label: "Blog & News", href: "/blog" },
-    { label: "WhatsApp TV Channel", href: site.social.whatsappChannel, external: true }] },
+    { label: "Insights & Case Studies", href: "/insights" }, { label: "Blog & News", href: "/blog" }] },
   { label: "Careers", href: "/careers", section: "/careers", children: [
     { label: "Open Positions", href: "/careers#positions" }, { label: "Internship & Graduate Programs", href: "/careers#internship" },
     { label: "Submit Your CV", href: "/careers#apply" }] },

@@ -175,6 +175,10 @@ export const serviceDetail: Record<string, ServiceDetail> = {
       [
         "Do you support NDPA compliance?",
         "Yes. We map your data flows, close control gaps and help you prepare documentation for the Nigeria Data Protection Act."
+      ],
+      [
+        "We're a fintech. Can you test every release, not just once a year?",
+        "Yes. Fortis, our release security testing product, checks every push and deploy and builds an evidence pack mapped to CBN, NDPA and PCI DSS. Plans and a free tier are on the Fortis website."
       ]
     ]
   },

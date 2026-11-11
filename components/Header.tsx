@@ -17,7 +17,7 @@ function SubLink({ l, onClick }: { l: NavLink; onClick?: () => void }) {
   );
 }
 
-export function SocialLinks({ channel = false }: { channel?: boolean }) {
+export function SocialLinks() {
   return (
     <>
       {socials.map((s) => (
@@ -25,8 +25,8 @@ export function SocialLinks({ channel = false }: { channel?: boolean }) {
           <Icon name={s.key} />
         </a>
       ))}
-      <a href={channel ? site.social.whatsappChannel : waChat} target="_blank" rel="noopener noreferrer"
-        aria-label={channel ? "EBSL WhatsApp TV Channel (opens in new tab)" : "Chat with EBSL on WhatsApp (opens in new tab)"}>
+      <a href={waChat} target="_blank" rel="noopener noreferrer"
+        aria-label="Chat with EBSL on WhatsApp (opens in new tab)">
         <Icon name="whatsapp" />
       </a>
     </>

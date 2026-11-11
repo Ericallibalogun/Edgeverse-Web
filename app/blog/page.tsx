@@ -1,7 +1,7 @@
 import { photo } from "@/lib/photos";
 import type { Metadata } from "next";
 import Newsletter from "@/components/Newsletter";
-import { PageHero, PostCard, Serif, WaChannelButton } from "@/components/ui";
+import { PageHero, PostCard, Serif, WaChatButton } from "@/components/ui";
 import { insights } from "@/lib/insights";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function Blog() {
   return (
     <>
       <PageHero media={{ ...photo("fibre-install"), size: "band", tag: { title: "Blog & News", sub: "From the EBSL team" } }} title={<>Blog &amp; <Serif>news.</Serif></>} eyebrow="Media" crumbs={[{ label: "Media", href: "/insights" }, { label: "Blog & News" }]}
-        lead="Announcements, product launches and stories from the EBSL team." actions={<WaChannelButton />} />
+        lead="Announcements, product launches and stories from the EBSL team." actions={<WaChatButton />} />
       <section className="section"><div className="container grid grid-3">{posts.map((p) => <PostCard key={p.slug} p={p} h="h2" />)}</div></section>
       <Newsletter />
     </>

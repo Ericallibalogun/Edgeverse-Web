@@ -36,7 +36,7 @@ const orgLd = {
   "@context": "https://schema.org", "@type": "Organization", name: site.name, alternateName: site.short, url: site.url,
   logo: `${site.url}/img/logo-dark.webp`, email: site.email, telephone: site.phoneHref,
   address: { "@type": "PostalAddress", streetAddress: "17C Saliu Aina Lawal Way, off Mobile Road", addressLocality: "Lekki", addressRegion: "Lagos", addressCountry: "NG" },
-  sameAs: Object.entries(site.social).filter(([k]) => k !== "whatsappChannel").map(([, v]) => v),
+  sameAs: Object.values(site.social),
 };
 
 const ga = process.env.NEXT_PUBLIC_GA_ID;
